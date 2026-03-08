@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logoImg from '/Logo.png';
+const logoImg = './Logo.png';
 
 const Loader: React.FC = () => {
   const [startExit, setStartExit] = useState(false);

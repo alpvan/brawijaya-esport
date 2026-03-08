@@ -1,0 +1,32 @@
+[
+    {
+        "date": "6",
+        "month": "Maret 2026",
+        "title": "Open Recruitment Batch 2",
+        "desc": "Pendaftaran anggota baru Brawijaya E-Sport resmi dibuka.",
+        "btn": "Daftar",
+        "active": true,
+        "details": {
+            "schedule": "6 Maret 2026",
+            "location": "Pendaftaran Online / Stand UB",
+            "divisions": "Creative Media, Marketing And Fundraising, Valorant, HOK",
+            "teams": "Mahasiswa Universitas Brawijaya Angkatan 2025 - 2026",
+            "fullDesc": "Bergabunglah dengan keluarga besar Brawijaya E-Sport! Kami membuka pendaftaran khusus untuk divisi Creative Media, Marketing And Fundraising, Valorant, dan HOK."
+        }
+    },
+    {
+        "date": "20",
+        "month": "Juni 2026",
+        "title": "Brawijaya Esport Cup",
+        "desc": "Turnamen bergengsi antar fakultas di Universitas Brawijaya.",
+        "btn": "Info",
+        "active": true,
+        "details": {
+            "schedule": "To be announced",
+            "location": "GOR Pertamina Universitas Brawijaya",
+            "prizePool": "To be announced",
+            "teams": "To be announced",
+            "fullDesc": "Brawijaya Esport Cup tahunan kembali digelar! Daftarkan tim fakultas kalian dan perebutkan piala bergilir Brawijaya Esport serta jadilah yang terbaik di kampus."
+        }
+    }
+]

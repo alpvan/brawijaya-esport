@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sparkles, ShoppingBag } from 'lucide-react';
+import { Menu, X, Sparkles, ShoppingBag, Instagram } from 'lucide-react';
 import Logo from './Logo';
-import ThemeToggle from './ThemeToggle';
 
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
@@ -17,7 +17,7 @@ const Navbar: React.FC = () => {
           setIsScrolled(window.scrollY > 50);
 
           // Detect active section
-          const sections = ['about', 'organization', 'prestasi', 'events', 'committee', 'contact'];
+          const sections = ['about', 'prestasi', 'events', 'committee', 'contact'];
           let currentSection = '';
 
           for (const section of sections) {
@@ -31,6 +31,19 @@ const Navbar: React.FC = () => {
             }
           }
           setActiveSection(currentSection);
+
+          // Check if philosophy section is in view to hide navbar
+          const philosophySection = document.getElementById('philosophy-section');
+          if (philosophySection) {
+            const rect = philosophySection.getBoundingClientRect();
+            // Hide navbar when the top of the philosophy section reaches near the top of the viewport
+            // and show it again when the bottom of the section passes the top of the viewport
+            const inView = rect.top <= 100 && rect.bottom >= 100;
+            setIsHidden(inView);
+          } else {
+            setIsHidden(false);
+          }
+
           ticking = false;
         });
         ticking = true;
@@ -43,23 +56,25 @@ const Navbar: React.FC = () => {
 
   const navLinks = [
     { name: 'Profile', href: '#about', id: 'about' },
-    { name: 'Pengurus', href: '#organization', id: 'organization' },
     { name: 'Prestasi', href: '#prestasi', id: 'prestasi' },
     { name: 'Acara', href: '#events', id: 'events' },
-    { name: 'Saran', href: '#contact', id: 'contact' },
+    { name: 'Kerja Sama', href: '#contact', id: 'contact' },
   ] as Array<{ name: string; href: string; id: string; external?: boolean }>;
 
   return (
     <nav
-      className={`fixed top-3 left-1/2 transform -translate-x-1/2 w-[90%] max-w-5xl z-50 transition-all duration-500 rounded-full ${isScrolled
-        ? 'shadow-[0_4px_20px_rgba(0,0,0,0.3)] bg-black/50 backdrop-blur-xl border border-white/10 py-0.5'
-        : 'bg-black/20 backdrop-blur-md border border-white/5 py-1'
+      className={`fixed left-1/2 transform -translate-x-1/2 w-[90%] max-w-5xl z-50 transition-all duration-500 rounded-full ${isHidden
+        ? '-top-20 opacity-0 pointer-events-none'
+        : 'top-3 opacity-100'
+        } ${isScrolled
+          ? 'shadow-[0_4px_20px_rgba(0,0,0,0.3)] bg-black/50 backdrop-blur-xl border border-white/10 py-0.5'
+          : 'bg-black/20 backdrop-blur-md border border-white/5 py-1'
         }`}
     >
       {/* Subtle top glow line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
 
-      <div className="px-4 md:px-5">
+      <div className="px-4 md:px-5 relative">
         <div className="flex items-center justify-between h-12">
           {/* Logo Section */}
           <div
@@ -80,17 +95,17 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center">
-            <div className="flex items-center space-x-1 bg-white/5 rounded-xl p-1">
+          {/* Centered Desktop Navigation Links */}
+          <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div className="flex items-center space-x-0.5 bg-white/5 rounded-xl p-0.5 border border-white/5">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   target={link.external ? '_blank' : undefined}
                   rel={link.external ? 'noopener noreferrer' : undefined}
-                  className={`relative px-4 py-2 rounded-lg font-sans text-xs font-medium uppercase tracking-wider transition-all duration-300 ${activeSection === link.id
-                    ? 'text-black bg-primary shadow-[0_0_20px_rgba(255,215,0,0.4)]'
+                  className={`relative px-4 py-1.5 rounded-lg font-sans text-[11px] font-bold uppercase tracking-widest transition-all duration-300 ${activeSection === link.id
+                    ? 'text-black bg-primary shadow-[0_0_15px_rgba(255,215,0,0.3)]'
                     : 'text-gray-300 hover:text-white hover:bg-white/10'
                     }`}
                 >
@@ -98,21 +113,20 @@ const Navbar: React.FC = () => {
                 </a>
               ))}
             </div>
-            {/* Theme Toggle */}
-            <div className="ml-3">
-              <ThemeToggle />
-            </div>
-            {/* CTA Button */}
+          </div>
+
+          {/* Desktop CTA Button (Right Side) */}
+          <div className="hidden md:flex items-center">
             <a
-              href="https://www.instagram.com/brawijayaesports.store/"
+              href="https://www.instagram.com/brawijaya_esports/"
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-3 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-yellow-400 text-black font-sans text-xs font-bold uppercase tracking-wider 
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-yellow-400 text-black font-sans text-xs font-bold uppercase tracking-wider 
                          hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] hover:scale-105 
                          transition-all duration-300 flex items-center gap-2"
             >
-              <ShoppingBag className="w-3.5 h-3.5" />
-              Merchandise
+              <Instagram className="w-3.5 h-3.5" />
+              Instagram
             </a>
           </div>
 
@@ -153,17 +167,16 @@ const Navbar: React.FC = () => {
               </a>
             ))}
           </div>
-          <div className="mt-4 flex items-center gap-3">
-            <ThemeToggle />
+          <div className="mt-4 flex flex-col gap-3">
             <a
-              href="https://www.instagram.com/brawijayaesports.store/"
+              href="https://www.instagram.com/brawijaya_esports/"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-primary to-yellow-400 text-black font-sans text-sm font-bold transition-all duration-300"
             >
-              <ShoppingBag className="w-4 h-4" />
-              Merchandise
+              <Instagram className="w-4 h-4" />
+              Follow Instagram
             </a>
           </div>
         </div>

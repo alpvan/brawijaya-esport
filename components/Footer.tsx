@@ -11,10 +11,9 @@ const TikTokIcon = () => (
 const Footer: React.FC = () => {
   const quickLinks = [
     { name: 'Profile', href: '#about' },
-    { name: 'Pengurus', href: '#organization' },
     { name: 'Prestasi', href: '#prestasi' },
     { name: 'Acara', href: '#events' },
-    { name: 'Saran', href: '#contact' },
+    { name: 'Kerja Sama', href: '#contact' },
   ];
 
   return (

@@ -5,22 +5,22 @@ const GameDivisions: React.FC = () => {
         {
             title: "Mobile Legends",
             desc: "MOBA mobile 5v5 kompetitif dengan rotasi tim dan strategi makro tingkat tinggi.",
-            image: "/mlbb.png"
+            image: "./mlbb.png"
         },
         {
             title: "Honor of Kings",
             desc: "MOBA global yang menguji mekanik individu dan kerjasama tim dalam pertempuran epik.",
-            image: "/hok.png"
+            image: "./hok.png"
         },
         {
             title: "Valorant",
             desc: "Tactical FPS yang memadukan aim tajam dan penggunaan ability agen secara strategis.",
-            image: "/valorant.png"
+            image: "./valorant.png"
         },
         {
             title: "E-Football",
             desc: "Simulasi sepak bola realistis yang menuntut pemahaman taktik dan skill formasi.",
-            image: "/efootball.png"
+            image: "./efootball.png"
         }
     ];
 
@@ -151,7 +151,7 @@ const GameDivisions: React.FC = () => {
                 <div className="relative w-full h-full flex items-center justify-center">
                     <div className={`absolute inset-0 border-2 border-primary/50 rounded-full ${isDragging ? 'animate-[spin_0.5s_linear_infinite]' : 'animate-[spin_3s_linear_infinite]'}`}></div>
                     <div className="absolute inset-2 bg-primary/20 blur-md rounded-full"></div>
-                    <img src="/Logo.png" alt="Cursor" className="w-8 h-8 object-contain drop-shadow-[0_0_10px_rgba(255,215,0,1)]" />
+                    <img src="./Logo.png" alt="Cursor" className="w-8 h-8 object-contain drop-shadow-[0_0_10px_rgba(255,215,0,1)]" />
                 </div>
             </div>
 

@@ -1,28 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Users, Trophy, Clock, MapPin } from 'lucide-react';
+import { X, Calendar, Users, Trophy, Clock, MapPin, Briefcase, Star, Zap, Gift } from 'lucide-react';
+import { EventItem, DetailCard } from '../src/store/useEventsStore';
 
-interface EventDetails {
-  schedule: string;
-  teams: string;
-  prizePool: string;
-  fullDesc: string;
-  location?: string;
-}
-
-interface EventData {
-  title: string;
-  date: string;
-  month: string;
-  details?: EventDetails;
-  btn?: string;
-  active: boolean;
-  desc: string;
-}
+const iconMap: Record<string, React.FC<{ className?: string }>> = {
+  clock: Clock,
+  users: Users,
+  trophy: Trophy,
+  mappin: MapPin,
+  briefcase: Briefcase,
+  star: Star,
+  zap: Zap,
+  gift: Gift,
+  calendar: Calendar,
+};
 
 interface EventDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  event: EventData | null;
+  event: EventItem | null;
   onRegister: () => void;
 }
 
@@ -52,6 +47,8 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ isOpen, onClose, 
 
   if (!isOpen && !isAnimating) return null;
   if (!event) return null;
+
+  const cards = event.detailCards || [];
 
   return (
     <div className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}>
@@ -83,40 +80,34 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ isOpen, onClose, 
             <h2 className="text-3xl md:text-4xl font-sans font-bold text-white leading-tight mb-4">{event.title}</h2>
             <div className="flex flex-wrap items-center text-gray-400 text-sm gap-6">
               <span className="flex items-center gap-2"><Calendar className="w-4 h-4 text-primary" /> {event.date} {event.month}</span>
-              {event.details?.location && <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-primary" /> {event.details.location}</span>}
+              {event.location && <span className="flex items-center gap-2"><MapPin className="w-4 h-4 text-primary" /> {event.location}</span>}
+              {event.time && <span className="flex items-center gap-2"><Clock className="w-4 h-4 text-primary" /> {event.time}</span>}
             </div>
           </div>
 
           <div className="prose prose-invert max-w-none mb-8">
             <h4 className="text-white font-sans font-bold text-lg mb-2">Deskripsi</h4>
-            <p className="text-gray-300 leading-relaxed text-sm md:text-base">
-              {event.details?.fullDesc || event.desc}
+            <p className="text-gray-300 leading-relaxed text-sm md:text-base whitespace-pre-line">
+              {event.content || event.desc}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div className="bg-surface-dark-2 p-4 border border-gray-800 rounded-sm hover:border-primary/30 transition-colors">
-              <div className="flex items-center gap-2 mb-2 text-primary">
-                <Clock className="w-4 h-4" />
-                <span className="text-xs font-bold uppercase tracking-wider">Jadwal</span>
-              </div>
-              <p className="text-sm text-white font-medium">{event.details?.schedule || "TBA"}</p>
+          {cards.length > 0 && (
+            <div className={`grid grid-cols-1 ${cards.length === 1 ? '' : cards.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-4 mb-8`}>
+              {cards.map((card) => {
+                const IconComp = iconMap[card.icon] || Star;
+                return (
+                  <div key={card.id} className="bg-surface-dark-2 p-4 border border-gray-800 rounded-sm hover:border-primary/30 transition-colors">
+                    <div className="flex items-center gap-2 mb-2 text-primary">
+                      <IconComp className="w-4 h-4" />
+                      <span className="text-xs font-bold uppercase tracking-wider">{card.label}</span>
+                    </div>
+                    <p className="text-sm text-white font-medium">{card.value}</p>
+                  </div>
+                );
+              })}
             </div>
-            <div className="bg-surface-dark-2 p-4 border border-gray-800 rounded-sm hover:border-primary/30 transition-colors">
-              <div className="flex items-center gap-2 mb-2 text-primary">
-                <Users className="w-4 h-4" />
-                <span className="text-xs font-bold uppercase tracking-wider">Peserta</span>
-              </div>
-              <p className="text-sm text-white font-medium">{event.details?.teams || "Terbuka untuk Semua"}</p>
-            </div>
-            <div className="bg-surface-dark-2 p-4 border border-gray-800 rounded-sm hover:border-primary/30 transition-colors">
-              <div className="flex items-center gap-2 mb-2 text-primary">
-                <Trophy className="w-4 h-4" />
-                <span className="text-xs font-bold uppercase tracking-wider">Hadiah</span>
-              </div>
-              <p className="text-sm text-white font-medium">{event.details?.prizePool || "Sertifikat & Kehormatan"}</p>
-            </div>
-          </div>
+          )}
 
           {(event.btn === 'Daftar' || event.btn === 'Info') && event.active && (
             <div className="pt-4 border-t border-gray-800">
@@ -126,9 +117,6 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ isOpen, onClose, 
               >
                 {event.btn === 'Daftar' ? 'Daftar Sekarang' : 'Informasi Lebih Lanjut'}
               </button>
-              <p className="text-center text-xs text-gray-500 mt-3">
-                Pendaftaran ditutup 2 hari sebelum acara dimulai.
-              </p>
             </div>
           )}
         </div>

@@ -1,69 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Reveal from './Reveal';
 import RegistrationModal from './RegistrationModal';
 import EventDetailsModal from './EventDetailsModal';
 import { ArrowRight, Calendar, Clock, MapPin } from 'lucide-react';
 import GlitchReveal from './GlitchReveal';
 import ParallaxSection from './ParallaxSection';
+import { useEventsStore, EventItem } from '../src/store/useEventsStore';
 
 const Events: React.FC = () => {
-  const [selectedEvent, setSelectedEvent] = useState<string | null>(null);
-  const [detailEvent, setDetailEvent] = useState<any | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
+  const [detailEvent, setDetailEvent] = useState<EventItem | null>(null);
+  const { eventsList, fetchEvents } = useEventsStore();
 
-  const events = [
-    {
-      date: '99',
-      month: 'Januari 2026',
-      title: 'Open Recruitment Batch 2',
-      desc: 'aca apa ja yang terdekat nanti',
-      btn: 'Daftar',
-      active: true,
-      details: {
-        schedule: '15 Nov - 30 Nov 2023',
-        location: 'Online Registration',
-        prizePool: 'N/A',
-        teams: 'All Game Divisions',
-        fullDesc: 'Join the family! We are opening recruitment for Mobile Legends, PUBG Mobile, Valorant, Dota 2, and more.'
-      }
-    },
-    {
-      date: '99',
-      month: 'Januari 2026',
-      title: 'Nama Event',
-      desc: 'aca apa ja yang terdekat nanti',
-      tag: 'Members Only',
-      active: false,
-      details: {
-        schedule: 'Serah',
-        location: 'Di Mana Mana',
-        prizePool: 'Duwek',
-        teams: 'Se antero dunia',
-        fullDesc: 'Yang Bikin Website butuh duit'
-      }
-    },
-    {
-      date: '99',
-      month: 'Januari 2026',
-      title: 'Nama Event',
-      desc: 'aca apa ja yang terdekat nanti',
-      btn: 'Info',
-      active: true,
-      details: {
-        schedule: 'Serah',
-        location: 'Di Mana Mana',
-        prizePool: 'Duwek',
-        teams: 'Se antero dunia',
-        fullDesc: 'Yang Bikin Website butuh duit'
-      }
-    },
-  ];
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
 
-  const handleRegisterClick = (title: string, action?: string) => {
-    if (action === 'Daftar') {
-      setSelectedEvent(title);
-    } else if (action === 'Info') {
-      const evt = events.find(e => e.title === title);
-      if (evt) setDetailEvent(evt);
+  const handleRegisterClick = (event: EventItem) => {
+    if (event.btn === 'Daftar') {
+      setSelectedEvent(event);
+    } else if (event.btn === 'Info') {
+      setDetailEvent(event);
     }
   };
 
@@ -71,11 +28,9 @@ const Events: React.FC = () => {
     <>
       <ParallaxSection
         id="events"
-        className="py-20 md:py-32"
+        className="py-16 md:py-24 lg:py-32"
         backgroundContent={
           <>
-
-
             {/* Parallax glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" style={{ animation: 'glowPulse 5s ease-in-out infinite 1s' }}></div>
           </>
@@ -83,12 +38,12 @@ const Events: React.FC = () => {
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal>
-            <div className="text-center mb-16">
+            <div className="text-center mb-10 md:mb-16">
               {/* Badge */}
               <GlitchReveal>
-                <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r from-primary/20 to-amber-500/20 border border-primary/30 mx-auto">
-                  <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                  <span className="text-primary font-sans text-xs font-bold tracking-[0.15em] uppercase">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 mb-4 md:mb-6 rounded-full bg-gradient-to-r from-primary/20 to-amber-500/20 border border-primary/30 mx-auto">
+                  <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-primary animate-pulse"></span>
+                  <span className="text-primary font-sans text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase">
                     Acara
                   </span>
                 </div>
@@ -96,7 +51,7 @@ const Events: React.FC = () => {
 
               {/* Title */}
               <GlitchReveal>
-                <h3 className="text-3xl md:text-5xl font-sans font-black">
+                <h3 className="text-3xl sm:text-4xl md:text-5xl font-sans font-black">
                   <span className="text-white">Jadwal </span>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-yellow-300 to-amber-400">
                     Mendatang
@@ -107,7 +62,7 @@ const Events: React.FC = () => {
           </Reveal>
 
           <div className="space-y-4">
-            {events.map((event, index) => (
+            {eventsList.map((event, index) => (
               <Reveal key={index} delay={index * 100}>
                 <div className={`flex flex-col md:flex-row gap-6 items-center p-6 rounded-2xl transition-all duration-300 group ${event.active
                   ? 'bg-white/5 border border-white/10 hover:border-primary/50 hover:bg-white/10 hover:shadow-[0_0_40px_rgba(255,215,0,0.1)]'
@@ -143,7 +98,7 @@ const Events: React.FC = () => {
                   <div className="flex-shrink-0">
                     {event.btn ? (
                       <button
-                        onClick={() => handleRegisterClick(event.title, event.btn)}
+                        onClick={() => handleRegisterClick(event)}
                         className={`px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-wider transition-all duration-300 ${event.active
                           ? 'bg-gradient-to-r from-primary to-yellow-400 text-black hover:shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:scale-105'
                           : 'bg-white/5 border border-white/20 text-white hover:border-primary hover:text-primary'
@@ -167,7 +122,7 @@ const Events: React.FC = () => {
       <RegistrationModal
         isOpen={!!selectedEvent}
         onClose={() => setSelectedEvent(null)}
-        eventName={selectedEvent || ''}
+        event={selectedEvent}
       />
 
       <EventDetailsModal
@@ -176,8 +131,9 @@ const Events: React.FC = () => {
         event={detailEvent}
         onRegister={() => {
           if (detailEvent?.btn === 'Daftar') {
+            const ev = detailEvent;
             setDetailEvent(null);
-            setSelectedEvent(detailEvent.title);
+            setSelectedEvent(ev);
           }
         }}
       />
@@ -185,4 +141,4 @@ const Events: React.FC = () => {
   );
 };
 
-export default Events;
+export default Events;

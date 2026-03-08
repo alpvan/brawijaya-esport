@@ -38,7 +38,7 @@ export const initScrollTransitions = () => {
                 const scrolled = window.pageYOffset;
 
                 // Parallax for elements with data-parallax attribute
-                document.querySelectorAll('[data-parallax]').forEach(el => {
+                document.querySelectorAll<HTMLElement>('[data-parallax]').forEach(el => {
                     const speed = parseFloat(el.getAttribute('data-parallax') || '0.5');
                     const yPos = -(scrolled * speed);
                     el.style.transform = `translateY(${yPos}px)`;

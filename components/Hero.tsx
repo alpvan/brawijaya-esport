@@ -5,6 +5,7 @@ import GlitchReveal from './GlitchReveal';
 import CountUp from './CountUp';
 import { ChevronDown, Info, Calendar, Trophy, Users } from 'lucide-react';
 import Logo3D from './Logo3D';
+import { useContentStore } from '../src/store/useContentStore';
 
 const Hero: React.FC = () => {
   const logoRef = useRef<HTMLDivElement>(null);
@@ -12,6 +13,13 @@ const Hero: React.FC = () => {
   const bgShape1Ref = useRef<HTMLDivElement>(null);
   const bgShape2Ref = useRef<HTMLDivElement>(null);
   const floatingShapeRef = useRef<HTMLDivElement>(null);
+
+  const { hero, fetchContent } = useContentStore();
+
+  useEffect(() => {
+    // Fetch content on mount
+    fetchContent();
+  }, [fetchContent]);
 
   useEffect(() => {
     let ticking = false;
@@ -66,8 +74,8 @@ const Hero: React.FC = () => {
 
 
       {/* Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black pointer-events-none z-0"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80 pointer-events-none z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80 pointer-events-none z-0"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60 pointer-events-none z-0"></div>
 
       {/* Parallax Glow Elements */}
       <div
@@ -89,28 +97,27 @@ const Hero: React.FC = () => {
             <Reveal>
               {/* Badge */}
               <GlitchReveal delay={500}>
-                <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-gradient-to-r from-primary/20 to-amber-500/20 border border-primary/30 backdrop-blur-sm">
-                  <span className="text-primary font-sans text-xs font-bold tracking-[0.15em] uppercase">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 mb-6 md:mb-8 rounded-full bg-gradient-to-r from-primary/20 to-amber-500/20 border border-primary/30 backdrop-blur-sm">
+                  <span className="text-primary font-sans text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase">
                     Brawijaya Esport
                   </span>
                 </div>
               </GlitchReveal>
 
               {/* Main Heading */}
-              {/* Main Heading */}
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-sans font-black tracking-tight mb-8 leading-none">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-sans font-black tracking-tight mb-6 md:mb-8 leading-none">
                 <GlitchReveal delay={800}>
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-1 md:gap-2">
                     <GlitchReveal delay={800}>
                       <span className="text-white drop-shadow-xl filter">
-                        <TextScramble text="BRAWIJAYA" delay={1000} />
+                        <TextScramble text={hero?.titleText1 || "BRAWIJAYA"} delay={1000} />
                       </span>
                     </GlitchReveal>
                     <GlitchReveal delay={1000}>
                       <span className="relative inline-block text-transparent bg-clip-text bg-gradient-to-r from-primary via-yellow-300 to-amber-400 drop-shadow-[0_0_35px_rgba(255,215,0,0.4)]">
-                        <TextScramble text="ESPORT" delay={1500} />
+                        <TextScramble text={hero?.titleText2 || "ESPORT"} delay={1500} />
                         {/* Glitch overlay elements */}
-                        <span className="absolute top-0 left-0 -ml-1 text-primary/30 opacity-0 animate-ping pointer-events-none">ESPORT</span>
+                        <span className="absolute top-0 left-0 -ml-1 text-primary/30 opacity-0 animate-ping pointer-events-none">{hero?.titleText2 || "ESPORT"}</span>
                       </span>
                     </GlitchReveal>
                   </div>
@@ -118,26 +125,26 @@ const Hero: React.FC = () => {
               </h1>
 
               {/* Description */}
-              <p className="mt-8 max-w-2xl text-base md:text-lg text-gray-400 leading-relaxed">
-                Unit Kegiatan Mahasiswa (UKM) <span className="text-white font-bold">Brawijaya E-Sport (BEST)</span> adalah komunitas e-sports di Universitas Brawijaya. Sejak 2021, kami mewadahi 800+ anggota dan membina tim kompetitif (MLBB, HOK, PUBGM, Valorant) untuk berprestasi di tingkat nasional dengan menjunjung tinggi sportivitas.
+              <p className="mt-6 md:mt-8 max-w-2xl text-sm md:text-lg text-gray-400 leading-relaxed">
+                {hero?.description || "Unit Kegiatan Mahasiswa (UKM) Brawijaya E-Sport (BEST) adalah komunitas e-sports di Universitas Brawijaya. Sejak 2021, kami mewadahi 800+ anggota dan membina tim kompetitif (MLBB, HOK, PUBGM, Valorant) untuk berprestasi di tingkat nasional dengan menjunjung tinggi sportivitas."}
               </p>
 
               {/* CTA Buttons */}
-              <div className="mt-10 flex flex-col sm:flex-row gap-4">
+              <div className="mt-8 md:mt-10 flex flex-col w-full sm:flex-row sm:w-auto gap-4">
                 <a
                   href="#about"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-primary to-yellow-400 text-black font-sans font-bold text-base rounded-xl
+                  className="group relative px-6 md:px-8 py-3.5 md:py-4 bg-gradient-to-r from-primary to-yellow-400 text-black font-sans font-bold text-sm md:text-base rounded-xl
                            hover:shadow-[0_0_40px_rgba(255,215,0,0.4)] hover:scale-105
-                           transition-all duration-300 text-center flex items-center justify-center gap-2"
+                           transition-all duration-300 text-center flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <Info className="w-4 h-4" />
                   TENTANG KAMI
                 </a>
                 <a
                   href="#events"
-                  className="px-8 py-4 bg-white/5 border border-white/20 text-white font-sans font-bold text-base rounded-xl
+                  className="px-6 md:px-8 py-3.5 md:py-4 bg-white/5 border border-white/20 text-white font-sans font-bold text-sm md:text-base rounded-xl
                            hover:bg-white/10 hover:border-primary/50 hover:text-primary
-                           transition-all duration-300 text-center flex items-center justify-center gap-2"
+                           transition-all duration-300 text-center flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <Calendar className="w-4 h-4" />
                   LIHAT ACARA
@@ -145,17 +152,17 @@ const Hero: React.FC = () => {
               </div>
 
               {/* Stats */}
-              <div className="mt-12">
-                <div className="grid grid-cols-3 gap-6">
+              <div className="mt-10 md:mt-12">
+                <div className="grid grid-cols-3 gap-2 sm:gap-6">
                   {stats.map((stat, index) => (
                     <div key={index} className="text-center sm:text-left">
-                      <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
-                        <stat.icon className="w-4 h-4 text-primary" />
-                        <span className="text-2xl md:text-3xl font-sans font-black text-white">
+                      <div className="flex items-center justify-center sm:justify-start gap-1 md:gap-2 mb-1">
+                        <stat.icon className="w-3 h-3 md:w-4 md:h-4 text-primary" />
+                        <span className="text-xl sm:text-2xl md:text-3xl font-sans font-black text-white">
                           <CountUp end={stat.end} suffix={stat.suffix} />
                         </span>
                       </div>
-                      <span className="text-xs text-gray-500 uppercase tracking-wider">{stat.label}</span>
+                      <span className="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest block whitespace-nowrap overflow-hidden text-ellipsis px-1 sm:px-0">{stat.label}</span>
                     </div>
                   ))}
                 </div>

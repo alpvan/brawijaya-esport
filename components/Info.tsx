@@ -9,22 +9,22 @@ const Info: React.FC = () => {
     {
       title: "Mobile Legends",
       desc: "MOBA mobile 5v5 kompetitif dengan rotasi tim dan strategi makro tingkat tinggi.",
-      image: "/mlbb.png"
+      image: "./mlbb.png"
     },
     {
       title: "Honor of Kings",
       desc: "MOBA global yang menguji mekanik individu dan kerjasama tim dalam pertempuran epik.",
-      image: "/hok.png"
+      image: "./hok.png"
     },
     {
       title: "Valorant",
       desc: "Tactical FPS yang memadukan aim tajam dan penggunaan ability agen secara strategis.",
-      image: "/valorant.png"
+      image: "./valorant.png"
     },
     {
       title: "E-Football",
       desc: "Simulasi sepak bola realistis yang menuntut pemahaman taktik dan skill formasi.",
-      image: "/efootball.png"
+      image: "./efootball.png"
     }
   ];
 
@@ -212,7 +212,7 @@ const Info: React.FC = () => {
             {/* Inner Glow */}
             <div className="absolute inset-2 bg-primary/20 blur-md rounded-full"></div>
             {/* Logo */}
-            <img src="/Logo.png" alt="Cursor" className="w-8 h-8 object-contain drop-shadow-[0_0_10px_rgba(255,215,0,1)]" />
+            <img src="./Logo.png" alt="Cursor" className="w-8 h-8 object-contain drop-shadow-[0_0_10px_rgba(255,215,0,1)]" />
           </div>
         </div>
 

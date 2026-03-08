@@ -23,7 +23,7 @@ const Logo3D: React.FC<Logo3DProps> = ({
     return (
         <div className={`${sizeClasses[size]} ${className}`}>
             <model-viewer
-                src="/LandingBuatBEST/Logo.glb"
+                src="./Logo.glb"
                 alt="Brawijaya Esport 3D Logo"
                 auto-rotate={autoRotate}
                 rotation-per-second="30deg"

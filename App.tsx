@@ -1,65 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { ThemeProvider } from './contexts/ThemeContext';
-import Navbar from './components/Navbar';
-import Loader from './components/Loader';
-import BackgroundParticles from './components/BackgroundParticles';
-import Hero from './components/Hero';
-import About from './components/About';
-import TeamLogos from './components/TeamLogos';
-// import Organization from './components/Organization';
-import Prestasi from './components/Prestasi';
-import Events from './components/Events';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import ScrollToTop from './components/ScrollToTop';
-import { initScrollTransitions } from './utils/scrollTransitions';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './src/firebase';
+import { useAuthStore } from './src/store/useAuthStore';
+
+// Pages
+import { LandingPage } from './src/pages/LandingPage';
+import { Login } from './src/pages/Login';
+import { AdminDashboard } from './src/pages/AdminDashboard';
+import { AdminRoute } from './src/components/AdminRoute';
 
 const App: React.FC = () => {
-  const [loading, setLoading] = useState(true);
+  const { setUser, setLoading } = useAuthStore();
 
   useEffect(() => {
-    // Simulate loading time for the intro animation
-    const timer = setTimeout(() => {
+    // Safety timeout: if Firebase doesn't respond in 6s, stop loading
+    const timeout = setTimeout(() => {
       setLoading(false);
-    }, 2500);
-    return () => clearTimeout(timer);
-  }, []);
+    }, 6000);
 
-  useEffect(() => {
-    // Initialize scroll transitions after component mounts
-    const cleanup = initScrollTransitions();
-    return cleanup;
-  }, [loading]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      clearTimeout(timeout);
+      setUser(user);
+      setLoading(false);
+    }, (error) => {
+      clearTimeout(timeout);
+      console.error('Firebase Auth error:', error);
+      setLoading(false);
+    });
+
+    return () => {
+      clearTimeout(timeout);
+      unsubscribe();
+    };
+  }, [setUser, setLoading]);
 
   return (
-    <ThemeProvider>
-      {loading && <Loader />}
+    <Router basename="/LandingBuatBEST">
+      <Routes>
+        {/* Public Route */}
+        <Route path="/" element={<LandingPage />} />
 
-      {/* 
-         We keep the main content mounted but hidden or behind the loader 
-         to ensure it's ready when the loader fades out. 
-         However, for a clean React implementation, we can conditionally render
-         or just use CSS opacity control controlled by the loading state if we wanted
-         a cross-fade. Here we strictly swap or overlay.
-      */}
-      <div className={`transition-opacity duration-1000 ${loading ? 'opacity-0 invisible' : 'opacity-100 visible'}`}>
-        <BackgroundParticles />
-        <Navbar />
+        {/* Admin Login Route */}
+        <Route path="/alvan/login" element={<Login />} />
 
-        <main className="relative z-10">
-          <Hero />
-          <About />
+        {/* Protected Admin Routes */}
+        <Route path="/alvan" element={<AdminRoute />}>
+          <Route index element={<Navigate to="/alvan/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+        </Route>
 
-          {/* <Organization /> */}
-          <Prestasi />
-          <Events />
-          <Contact />
-        </main>
-
-        <Footer />
-        <ScrollToTop />
-      </div>
-    </ThemeProvider>
+        {/* Catch all route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 };
 
