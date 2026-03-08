@@ -72,7 +72,6 @@ const Contact: React.FC<ContactProps> = ({ onOpenSupport }) => {
                   Support Developer
                 </button>
 
-                {/* Tooltip on hover */}
                 <div className="absolute -top-14 left-1/2 -translate-x-1/2 min-w-[250px]
                                 opacity-0 invisible group-hover:opacity-100 group-hover:visible 
                                 bg-black border border-primary/30 text-white text-xs text-center

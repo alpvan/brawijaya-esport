@@ -19,5 +19,4 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
-// To use Realtime Database if needed
 export const rtdb = getDatabase(app);

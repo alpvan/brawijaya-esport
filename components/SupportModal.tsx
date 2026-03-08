@@ -10,7 +10,6 @@ const SupportModal: React.FC<SupportModalProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      // Hide navbar by adding a specific class to body that we can target or hiding it directly
       const navbar = document.querySelector('nav');
       if (navbar) {
         navbar.style.display = 'none';

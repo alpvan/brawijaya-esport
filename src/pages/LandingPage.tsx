@@ -18,7 +18,6 @@ export const LandingPage: React.FC = () => {
     const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
 
     useEffect(() => {
-        // Simulate loading time for the intro animation
         const timer = setTimeout(() => {
             setLoading(false);
         }, 2500);
@@ -26,7 +25,6 @@ export const LandingPage: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        // Initialize scroll transitions after component mounts
         const cleanup = initScrollTransitions();
         return cleanup;
     }, [loading]);

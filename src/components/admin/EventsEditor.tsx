@@ -103,7 +103,6 @@ export const EventsEditor = () => {
     const handleEdit = (event: EventItem) => {
         setEditingId(event.id);
         const { id, ...rest } = event;
-        // Merge with defaults if missing (for legacy events)
         setFormData({
             ...emptyEvent,
             ...rest
@@ -165,7 +164,6 @@ export const EventsEditor = () => {
                 </div>
             )}
 
-            {/* Form Tambah / Edit Acara */}
             {showForm && (
                 <div className="bg-zinc-950 border border-[#00f0ff]/30 rounded-xl p-6 overflow-y-auto max-h-[85vh]">
                     <div className="flex items-center justify-between mb-6">
@@ -173,7 +171,6 @@ export const EventsEditor = () => {
                         <button onClick={handleResetForm} className="text-gray-400 hover:text-white"><X className="w-5 h-5" /></button>
                     </div>
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Informasi Dasar */}
                         <div className="space-y-4">
                             <h4 className="text-xs uppercase tracking-widest text-[#00f0ff] font-bold border-b border-zinc-800 pb-2">Informasi Dasar</h4>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -244,7 +241,6 @@ export const EventsEditor = () => {
                             </div>
                         </div>
 
-                        {/* Detail Cards (untuk pop-up Informasi Lebih Lanjut) */}
                         <div className="space-y-4">
                             <h4 className="text-xs uppercase tracking-widest text-[#00f0ff] font-bold border-b border-zinc-800 pb-2">Kotak Detail Acara (Pop-up "Pelajari Lebih Lanjut")</h4>
                             <p className="text-xs text-gray-500 -mt-2">Setiap kotak akan ditampilkan saat pengunjung mengklik "Pelajari Lebih Lanjut". Anda bisa menambah, menghapus, dan mengatur setiap kotak.</p>
@@ -331,11 +327,9 @@ export const EventsEditor = () => {
                             </div>
                         </div>
 
-                        {/* Pengaturan Form Pendaftaran */}
                         <div className="space-y-4">
                             <h4 className="text-xs uppercase tracking-widest text-[#00f0ff] font-bold border-b border-zinc-800 pb-2">Kustomisasi Form Pendaftaran (Google Form Style)</h4>
                             
-                            {/* Pesan Sukses */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-zinc-900/40 p-4 rounded-xl border border-zinc-800">
                                 <div className="space-y-2">
                                     <label className="text-xs text-gray-500 uppercase tracking-widest">Judul Sukses</label>
@@ -349,7 +343,6 @@ export const EventsEditor = () => {
                                 </div>
                             </div>
 
-                            {/* Field Builder */}
                             <div className="space-y-4">
                                 {(formData.formFields || []).map((field, idx) => (
                                     <div key={field.key} className="bg-zinc-900/40 p-5 rounded-xl border border-zinc-800/50 space-y-4 group transition-all hover:border-[#00f0ff]/20">
@@ -445,7 +438,6 @@ export const EventsEditor = () => {
                 </div>
             )}
 
-            {/* Daftar Acara */}
             {loading ? (
                 <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-gray-400" /></div>
             ) : eventsList.length === 0 ? (

@@ -20,7 +20,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
         window.requestAnimationFrame(() => {
           setIsScrolled(window.scrollY > 50);
 
-          // Detect active section
           const sections = ['about', 'prestasi', 'events', 'committee', 'contact'];
           let currentSection = '';
 
@@ -36,7 +35,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
           }
           setActiveSection(currentSection);
 
-          // Check if philosophy section is in view to hide navbar
           const philosophySection = document.getElementById('philosophy-section');
           if (philosophySection) {
             const rect = philosophySection.getBoundingClientRect();
@@ -80,7 +78,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
 
       <div className="px-4 md:px-5 relative">
         <div className="flex items-center justify-between h-12">
-          {/* Logo Section */}
           <div
             className={`flex items-center flex-shrink-0 cursor-pointer transition-all duration-500 group ${isScrolled ? 'scale-95' : 'scale-100'
               }`}
@@ -88,7 +85,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
           >
             <div className="relative">
               <Logo className="h-9 w-auto" />
-              {/* Logo glow on hover */}
               <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-150"></div>
             </div>
             <div className="ml-3 flex flex-col">
@@ -99,7 +95,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
             </div>
           </div>
 
-          {/* Centered Desktop Navigation Links */}
           <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="flex items-center space-x-0.5 bg-white/5 rounded-xl p-0.5 border border-white/5">
               {navLinks.map((link) => (
@@ -132,7 +127,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
                   </div>
                   Support
                 </button>
-                {/* Tooltip */}
                 <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black border border-primary/30 text-white text-[10px] font-bold rounded-lg whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-glow">
                   Dukung pengembangan website ini
                   <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-black border-l border-t border-primary/30 rotate-45"></div>
@@ -152,7 +146,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
               </a>
             </div>
 
-          {/* Mobile Menu Button */}
           <div className="flex items-center md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -167,7 +160,6 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <div className={`md:hidden overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}>
         <div className="px-4 py-4 border-t border-white/10 bg-black/50 backdrop-blur-xl rounded-b-2xl">
