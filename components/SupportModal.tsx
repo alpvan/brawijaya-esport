@@ -66,7 +66,7 @@ const SupportModal: React.FC<SupportModalProps> = ({ isOpen, onClose }) => {
         <div className="bg-white p-3 sm:p-4 rounded-3xl mb-6 sm:mb-8 shadow-[0_0_40px_rgba(255,215,0,0.2)] relative overflow-hidden group w-[240px] sm:w-[280px]">
           <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl"></div>
           <img 
-            src="/Qris.jpg" 
+            src={`${import.meta.env.BASE_URL}Qris.jpg`}
             alt="QRIS Support" 
             className="w-full h-auto rounded-xl relative z-10 block"
             loading="eager"

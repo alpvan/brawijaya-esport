@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sparkles, ShoppingBag, Instagram } from 'lucide-react';
+import { Menu, X, Sparkles, ShoppingBag, Instagram, Heart } from 'lucide-react';
 import Logo from './Logo';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  onOpenSupport?: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -116,19 +120,37 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Desktop CTA Button (Right Side) */}
-          <div className="hidden md:flex items-center">
-            <a
-              href="https://www.instagram.com/brawijaya_esports/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-yellow-400 text-black font-sans text-xs font-bold uppercase tracking-wider 
-                         hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] hover:scale-105 
-                         transition-all duration-300 flex items-center gap-2"
-            >
-              <Instagram className="w-3.5 h-3.5" />
-              Instagram
-            </a>
-          </div>
+            <div className="flex items-center gap-3">
+              <div className="relative group">
+                <button
+                  onClick={onOpenSupport}
+                  className="px-4 py-2.5 rounded-xl border border-primary/30 text-primary font-sans text-[11px] font-black uppercase tracking-widest hover:bg-primary/10 hover:shadow-[0_0_20px_rgba(255,215,0,0.2)] transition-all duration-300 flex items-center gap-2 group/btn"
+                >
+                  <div className="relative">
+                    <Heart className="w-3.5 h-3.5 fill-current animate-pulse group-hover/btn:scale-110 transition-transform" />
+                    <div className="absolute inset-0 bg-primary/20 blur-sm rounded-full animate-ping"></div>
+                  </div>
+                  Support
+                </button>
+                {/* Tooltip */}
+                <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black border border-primary/30 text-white text-[10px] font-bold rounded-lg whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 shadow-glow">
+                  Dukung pengembangan website ini
+                  <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-black border-l border-t border-primary/30 rotate-45"></div>
+                </div>
+              </div>
+
+              <a
+                href="https://www.instagram.com/brawijaya_esports/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-yellow-400 text-black font-sans text-xs font-bold uppercase tracking-wider 
+                           hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] hover:scale-105 
+                           transition-all duration-300 flex items-center gap-2"
+              >
+                <Instagram className="w-3.5 h-3.5" />
+                Instagram
+              </a>
+            </div>
 
           {/* Mobile Menu Button */}
           <div className="flex items-center md:hidden">
@@ -168,6 +190,16 @@ const Navbar: React.FC = () => {
             ))}
           </div>
           <div className="mt-4 flex flex-col gap-3">
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                onOpenSupport?.();
+              }}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-primary/30 text-primary font-sans text-sm font-bold transition-all duration-300 bg-white/5 shadow-[0_0_20px_rgba(255,215,0,0.1)]"
+            >
+              <Heart className="w-4 h-4 animate-pulse" />
+              Support Developer
+            </button>
             <a
               href="https://www.instagram.com/brawijaya_esports/"
               target="_blank"

@@ -37,7 +37,7 @@ export const LandingPage: React.FC = () => {
 
             <div className={`transition-opacity duration-1000 ${loading ? 'opacity-0 invisible' : 'opacity-100 visible'} bg-black text-white min-h-screen`}>
                 <BackgroundParticles />
-                <Navbar />
+                <Navbar onOpenSupport={() => setIsSupportModalOpen(true)} />
 
                 <main className="relative z-10">
                     <Hero />
