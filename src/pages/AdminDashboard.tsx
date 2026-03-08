@@ -31,7 +31,6 @@ export const AdminDashboard = () => {
     return (
         <div className="min-h-screen bg-black text-white p-4 md:p-8 lg:p-10">
             <div className="max-w-7xl mx-auto space-y-6">
-                {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-zinc-900 border border-zinc-800 p-5 md:p-6 rounded-2xl">
                     <div>
                         <h1 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#00f0ff] to-[#00ff9d]">
@@ -48,9 +47,7 @@ export const AdminDashboard = () => {
                     </button>
                 </div>
 
-                {/* Content Area */}
                 <div className="flex flex-col lg:flex-row gap-6">
-                    {/* Sidebar */}
                     <div className="lg:w-1/5 flex lg:flex-col gap-3 overflow-x-auto pb-2 lg:pb-0">
                         {tabs.map((tab) => (
                             <button
@@ -67,7 +64,6 @@ export const AdminDashboard = () => {
                         ))}
                     </div>
 
-                    {/* Main Workspace */}
                     <div className="lg:flex-1">
                         {activeTab === 'prestasi' && <PrestasiEditor />}
                         {activeTab === 'events' && <EventsEditor />}

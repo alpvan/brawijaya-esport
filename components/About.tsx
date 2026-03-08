@@ -99,7 +99,6 @@ const About: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 sm:gap-6 lg:gap-8 mb-16 md:mb-24">
-            {/* Misi 1 */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -119,7 +118,6 @@ const About: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Misi 2 */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -139,7 +137,6 @@ const About: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Misi 3 */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -159,7 +156,6 @@ const About: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Misi 4 */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -179,7 +175,6 @@ const About: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Misi 5 */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -229,8 +224,6 @@ const About: React.FC = () => {
                 <div className="flex flex-col items-center justify-center relative z-10 w-full max-w-5xl mx-auto">
 
                   <div className="flex flex-col items-center justify-center relative z-10 w-full">
-
-                    {/* Logo 3D Display Area */}
                     <div className="relative w-full aspect-square sm:aspect-video lg:aspect-[18/9] max-h-[40vh] md:max-h-[50vh] flex items-center justify-center mb-6 sm:mb-8">
                       <button
                         onClick={prevSlide}
@@ -263,7 +256,6 @@ const About: React.FC = () => {
                       </button>
                     </div>
 
-                    {/* Philosophy Text Area */}
                     <div className="w-full max-w-3xl mx-auto text-center min-h-[140px] md:min-h-[160px] flex flex-col items-center justify-start">
                       <AnimatePresence mode="wait">
                         <motion.div
@@ -290,7 +282,6 @@ const About: React.FC = () => {
                       </AnimatePresence>
                     </div>
 
-                    {/* Navigation Dots */}
                     <div className="flex items-center justify-center gap-2 sm:gap-3 mt-4 sm:mt-6">
                       {philosophies.map((_, index) => (
                         <button
