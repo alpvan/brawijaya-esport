@@ -34,6 +34,7 @@ export const EventsEditor = () => {
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState<Omit<EventItem, 'id'>>(emptyEvent);
     const [editingId, setEditingId] = useState<string | null>(null);
+    const [activeSection, setActiveSection] = useState<'basic' | 'details' | 'form'>('basic');
     const [saving, setSaving] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
 
@@ -170,6 +171,31 @@ export const EventsEditor = () => {
                         <h3 className="font-bold text-[#00f0ff]">{editingId ? 'Edit Acara' : 'Tambah Acara Baru'}</h3>
                         <button onClick={handleResetForm} className="text-gray-400 hover:text-white"><X className="w-5 h-5" /></button>
                     </div>
+                    
+                    <div className="flex overflow-x-auto gap-2 mb-6 pb-2 no-scrollbar border-b border-zinc-800">
+                        <button 
+                            type="button" 
+                            onClick={() => setActiveSection('basic')}
+                            className={`px-4 py-2 font-bold text-xs uppercase tracking-widest whitespace-nowrap transition-colors border-b-2 ${activeSection === 'basic' ? 'border-[#00f0ff] text-[#00f0ff]' : 'border-transparent text-gray-500 hover:text-white'}`}
+                        >
+                            Informasi Dasar
+                        </button>
+                        <button 
+                            type="button" 
+                            onClick={() => setActiveSection('details')}
+                            className={`px-4 py-2 font-bold text-xs uppercase tracking-widest whitespace-nowrap transition-colors border-b-2 ${activeSection === 'details' ? 'border-[#00f0ff] text-[#00f0ff]' : 'border-transparent text-gray-500 hover:text-white'}`}
+                        >
+                            Kotak Panel Detail
+                        </button>
+                        <button 
+                            type="button" 
+                            onClick={() => setActiveSection('form')}
+                            className={`px-4 py-2 font-bold text-xs uppercase tracking-widest whitespace-nowrap transition-colors border-b-2 ${activeSection === 'form' ? 'border-[#00f0ff] text-[#00f0ff]' : 'border-transparent text-gray-500 hover:text-white'}`}
+                        >
+                            Form Pendaftaran
+                        </button>
+                    </div>
+
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-4">
                             <h4 className="text-xs uppercase tracking-widest text-[#00f0ff] font-bold border-b border-zinc-800 pb-2">Informasi Dasar</h4>
