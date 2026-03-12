@@ -65,7 +65,9 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
 
   return (
     <nav
-      className={`fixed left-1/2 transform -translate-x-1/2 w-[95%] md:w-[90%] max-w-5xl z-50 transition-all duration-500 rounded-full ${isHidden
+      className={`fixed left-1/2 transform -translate-x-1/2 w-[95%] md:w-[90%] max-w-5xl z-50 transition-all duration-500 ${
+        isMobileMenuOpen ? 'rounded-2xl' : 'rounded-full'
+      } ${isHidden
         ? '-top-20 opacity-0 pointer-events-none'
         : 'top-3 opacity-100'
         } ${isScrolled

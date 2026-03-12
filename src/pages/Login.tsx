@@ -19,7 +19,7 @@ export const Login = () => {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            navigate('/admin/dashboard');
+            navigate('/alvan/dashboard');
         } catch (err: any) {
             setError('Gagal login: ' + err.message);
         } finally {
