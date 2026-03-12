@@ -65,23 +65,17 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
 
   return (
     <nav
-      className={`fixed left-1/2 transform -translate-x-1/2 w-[95%] md:w-[90%] max-w-5xl z-50 transition-all duration-500 ${
-        isMobileMenuOpen ? 'rounded-2xl' : 'rounded-full'
-      } ${isHidden
-        ? '-top-20 opacity-0 pointer-events-none'
-        : 'top-3 opacity-100'
-        } ${isScrolled
-          ? 'shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-black/60 backdrop-blur-xl border border-white/10 py-0.5'
-          : 'bg-black/40 backdrop-blur-lg border border-white/5 py-1'
-        }`}
+      className={`fixed left-1/2 transform -translate-x-1/2 w-[95%] md:w-[90%] max-w-5xl z-50 transition-all duration-500 overflow-hidden border border-white/10 ${
+        isMobileMenuOpen ? 'rounded-[2rem] bg-black/80 backdrop-blur-2xl shadow-2xl' : 'rounded-full ' + (isScrolled ? 'shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-black/60 backdrop-blur-xl' : 'bg-black/40 backdrop-blur-lg')
+      } ${isHidden ? '-top-20 opacity-0 pointer-events-none' : 'top-3 opacity-100'}`}
     >
       {/* Subtle top glow line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
 
       <div className="px-4 md:px-5 relative">
-        <div className="flex items-center justify-between h-12">
+        <div className="flex items-center justify-between h-[60px] md:h-12 w-full">
           <div
-            className={`flex items-center flex-shrink-0 cursor-pointer transition-all duration-500 group ${isScrolled ? 'scale-95' : 'scale-100'
+            className={`flex items-center min-w-0 cursor-pointer transition-all duration-500 group ${isScrolled ? 'scale-95' : 'scale-100'
               }`}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
@@ -163,9 +157,9 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
         </div>
       </div>
 
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+      <div className={`md:hidden overflow-y-auto w-full transition-all duration-500 overflow-x-hidden ${isMobileMenuOpen ? 'max-h-[85vh] opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
         }`}>
-        <div className="px-4 py-4 border-t border-white/10 bg-black/50 backdrop-blur-xl rounded-b-2xl">
+        <div className="px-4 py-4 border-t border-white/10 mt-1">
           <div className="space-y-1">
             {navLinks.map((link) => (
               <a
