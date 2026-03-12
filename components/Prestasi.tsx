@@ -104,7 +104,7 @@ const Prestasi: React.FC = () => {
                         </div>
 
                         {/* Navigation Arrows - Hidden on very small screens to encourage swiping */}
-                        <div className="hidden sm:flex gap-3 md:gap-4">
+                        <div className="hidden lg:flex gap-3 md:gap-4">
                             <button
                                 onClick={scrollLeft}
                                 className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-primary/30 flex items-center justify-center text-primary hover:bg-primary/10 hover:shadow-[0_0_15px_rgba(255,215,0,0.3)] transition-all shrink-0"
@@ -128,13 +128,13 @@ const Prestasi: React.FC = () => {
                         onMouseLeave={handleMouseLeave}
                         onMouseUp={handleMouseUp}
                         onMouseMove={handleMouseMove}
-                        className={`flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide pb-8 ${!isDragging ? 'snap-x snap-mandatory' : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+                        className={`flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide pb-8 px-1 ${!isDragging ? 'snap-x snap-mandatory' : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
                         style={{ scrollBehavior: isDragging ? 'auto' : 'smooth' }}
                     >
                         {prestasiList.map((img, index) => (
                             <div
                                 key={index}
-                                className="shrink-0 w-[220px] sm:w-[240px] md:w-[280px] h-[300px] sm:h-[350px] relative rounded-2xl overflow-hidden group border border-white/10 snap-center select-none"
+                                className="shrink-0 w-[260px] sm:w-[300px] md:w-[320px] h-[350px] sm:h-[400px] relative rounded-2xl overflow-hidden group border border-white/10 snap-center select-none"
                             >
                                 <img
                                     src={img.src}

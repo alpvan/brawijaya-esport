@@ -65,12 +65,12 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
 
   return (
     <nav
-      className={`fixed left-1/2 transform -translate-x-1/2 w-[90%] max-w-5xl z-50 transition-all duration-500 rounded-full ${isHidden
+      className={`fixed left-1/2 transform -translate-x-1/2 w-[95%] md:w-[90%] max-w-5xl z-50 transition-all duration-500 rounded-full ${isHidden
         ? '-top-20 opacity-0 pointer-events-none'
         : 'top-3 opacity-100'
         } ${isScrolled
-          ? 'shadow-[0_4px_20px_rgba(0,0,0,0.3)] bg-black/50 backdrop-blur-xl border border-white/10 py-0.5'
-          : 'bg-black/20 backdrop-blur-md border border-white/5 py-1'
+          ? 'shadow-[0_10px_30px_rgba(0,0,0,0.5)] bg-black/60 backdrop-blur-xl border border-white/10 py-0.5'
+          : 'bg-black/40 backdrop-blur-lg border border-white/5 py-1'
         }`}
     >
       {/* Subtle top glow line */}
@@ -87,11 +87,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
               <Logo className="h-9 w-auto" />
               <div className="absolute inset-0 bg-primary/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-150"></div>
             </div>
-            <div className="ml-3 flex flex-col">
-              <span className="font-sans font-black text-base tracking-wide leading-tight">
+            <div className="ml-2 sm:ml-3 flex flex-col">
+              <span className="font-sans font-black text-sm md:text-base tracking-wide leading-tight">
                 <span className="text-primary drop-shadow-[0_0_8px_rgba(255,215,0,0.6)]">BRAWIJAYA</span>
               </span>
-              <span className="font-sans font-medium text-xs tracking-[0.3em] text-gray-400">ESPORT</span>
+              <span className="font-sans font-medium text-[8px] md:text-xs tracking-[0.2em] md:tracking-[0.3em] text-gray-400">ESPORT</span>
             </div>
           </div>
 
@@ -114,8 +114,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
             </div>
           </div>
 
-          {/* Desktop CTA Button (Right Side) */}
-            <div className="flex items-center gap-3">
+          {/* Desktop CTA Button (Right Side) - Hidden on mobile to prevent overcrowding */}
+            <div className="hidden md:flex items-center gap-3">
               <div className="relative group">
                 <button
                   onClick={onOpenSupport}
@@ -138,7 +138,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-yellow-400 text-black font-sans text-xs font-bold uppercase tracking-wider 
-                           hover:shadow-[0_0_30px_rgba(255,215,0,0.5)] hover:scale-105 
+                           hover:shadow-[0_0_30_rgba(255,215,0,0.5)] hover:scale-105 
                            transition-all duration-300 flex items-center gap-2"
               >
                 <Instagram className="w-3.5 h-3.5" />
@@ -149,12 +149,13 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
           <div className="flex items-center md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`relative p-2.5 rounded-xl transition-all duration-300 ${isMobileMenuOpen
-                ? 'bg-primary text-black'
-                : 'bg-white/10 text-white hover:bg-white/20'
+              className={`relative flex items-center gap-2 px-3 py-2 rounded-xl border transition-all duration-300 ${isMobileMenuOpen
+                ? 'bg-primary border-primary text-black shadow-[0_0_15px_rgba(255,215,0,0.4)]'
+                : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
                 }`}
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              <span className="text-[10px] font-black uppercase tracking-widest">{isMobileMenuOpen ? 'Close' : 'Menu'}</span>
+              {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </div>

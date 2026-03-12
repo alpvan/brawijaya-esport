@@ -64,50 +64,50 @@ const Events: React.FC = () => {
           <div className="space-y-4">
             {eventsList.map((event, index) => (
               <Reveal key={index} delay={index * 100}>
-                <div className={`flex flex-col md:flex-row gap-6 items-center p-6 rounded-2xl transition-all duration-300 group ${event.active
+                <div className={`flex flex-col md:flex-row gap-6 items-center p-5 sm:p-6 rounded-2xl transition-all duration-300 group ${event.active
                   ? 'bg-white/5 border border-white/10 hover:border-primary/50 hover:bg-white/10 hover:shadow-[0_0_40px_rgba(255,215,0,0.1)]'
                   : 'bg-white/[0.02] border border-white/5 opacity-60 hover:opacity-100'
                   }`}>
                   {/* Date */}
-                  <div className="flex-shrink-0 text-center md:text-left min-w-[100px] md:border-r md:border-white/10 md:pr-6">
-                    <span className={`block text-4xl font-sans font-black transition-colors ${event.active ? 'text-primary group-hover:text-white' : 'text-gray-500'
+                  <div className="flex-shrink-0 flex flex-row md:flex-col items-center justify-center gap-2 md:gap-0 text-center md:text-left min-w-[100px] md:border-r md:border-white/10 md:pr-6">
+                    <span className={`block text-3xl sm:text-4xl font-sans font-black transition-colors ${event.active ? 'text-primary group-hover:text-white' : 'text-gray-500'
                       }`}>
                       {event.date}
                     </span>
-                    <span className="text-gray-500 font-bold uppercase tracking-widest text-sm">
+                    <span className="text-gray-500 font-bold uppercase tracking-widest text-xs sm:text-sm">
                       {event.month}
                     </span>
                   </div>
 
                   {/* Content */}
                   <div className="flex-grow text-center md:text-left">
-                    <h4 className={`text-xl font-bold font-sans transition-colors mb-2 ${event.active ? 'text-white group-hover:text-primary' : 'text-gray-300'
+                    <h4 className={`text-lg sm:text-xl font-bold font-sans transition-colors mb-2 ${event.active ? 'text-white group-hover:text-primary' : 'text-gray-300'
                       }`}>
                       {event.title}
                     </h4>
-                    <p className="text-gray-400 text-sm mb-3">{event.desc}</p>
+                    <p className="text-gray-400 text-xs sm:text-sm mb-3 max-w-md mx-auto md:mx-0">{event.desc}</p>
                     <button
                       onClick={() => setDetailEvent(event)}
-                      className="text-primary text-xs font-bold uppercase tracking-wider hover:text-white transition-colors inline-flex items-center gap-1"
+                      className="text-primary text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:text-white transition-colors inline-flex items-center gap-1"
                     >
                       Pelajari Lebih Lanjut <ArrowRight className="w-3 h-3" />
                     </button>
                   </div>
 
                   {/* Action */}
-                  <div className="flex-shrink-0">
+                  <div className="flex-shrink-0 w-full md:w-auto">
                     {event.btn ? (
                       <button
                         onClick={() => handleRegisterClick(event)}
-                        className={`px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-wider transition-all duration-300 ${event.active
-                          ? 'bg-gradient-to-r from-primary to-yellow-400 text-black hover:shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:scale-105'
+                        className={`w-full md:w-auto px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 ${event.active
+                          ? 'bg-gradient-to-r from-primary to-yellow-400 text-black hover:shadow-[0_0_30px_rgba(255,215,0,0.4)] hover:scale-101'
                           : 'bg-white/5 border border-white/20 text-white hover:border-primary hover:text-primary'
                           }`}
                       >
                         {event.btn}
                       </button>
                     ) : (
-                      <span className="text-xs font-bold text-gray-500 px-4 py-2 rounded-xl bg-white/5 border border-white/10">
+                      <span className="block text-center text-[10px] font-bold text-gray-500 px-4 py-2 rounded-xl bg-white/5 border border-white/10">
                         {event.tag}
                       </span>
                     )}

@@ -97,7 +97,7 @@ const Footer: React.FC = () => {
               &copy; 2025 Alvan. Hak cipta dilindungi.
             </p>
             <p className="text-gray-600 text-xs">
-              Dibuat dengan ❤️ untuk BEST UB
+              Dibuat dengan ❤️ untuk Brawijaya Esport UB
             </p>
           </div>
         </div>

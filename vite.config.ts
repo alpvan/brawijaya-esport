@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     root: process.cwd(),
-    base: '/LandingBuatBEST/',
+    base: '/brawijaya-esport/',
     server: {
       port: 3000,
       host: '0.0.0.0',

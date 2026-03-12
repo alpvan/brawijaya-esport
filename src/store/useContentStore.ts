@@ -17,7 +17,7 @@ const defaultContent = {
     hero: {
         titleText1: "BRAWIJAYA",
         titleText2: "ESPORT",
-        description: "Unit Kegiatan Mahasiswa (UKM) Brawijaya E-Sport (BEST) adalah komunitas e-sports di Universitas Brawijaya. Sejak 2021, kami mewadahi 800+ anggota dan membina tim kompetitif (MLBB, HOK, PUBGM, Valorant) untuk berprestasi di tingkat nasional dengan menjunjung tinggi sportivitas."
+        description: "Unit Kegiatan Mahasiswa (UKM) Brawijaya Esport adalah komunitas e-sports di Universitas Brawijaya. Sejak 2021, kami mewadahi 800+ anggota dan membina tim kompetitif (MLBB, HOK, PUBGM, Valorant) untuk berprestasi di tingkat nasional dengan menjunjung tinggi sportivitas."
     }
 };
 

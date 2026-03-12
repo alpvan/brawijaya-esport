@@ -17,7 +17,7 @@ const generate = (division: string, count: number, startIdx = 1) => {
 };
 
 // Data Definition
-const memberPhotoPath = "/LandingBuatBEST/anggota/Alvan.png";
+const memberPhotoPath = "/brawijaya-esport/anggota/Alvan.png";
 
 const ORGANIZATION_DATA: Record<string, { name: string; role: string; division: string; color: string; image?: string }[]> = {
     BPI: [

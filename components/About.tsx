@@ -26,7 +26,7 @@ const About: React.FC = () => {
     },
     {
       title: "Huruf B, E, S, T",
-      description: 'Singkatan dari "Brawijaya E-Sport". Terdapat huruf B, E, S, dan T di dalam logo yang menandakan bahwa logo tersebut milik kebanggaan Universitas Brawijaya.',
+      description: 'Kepanjangan dari "Brawijaya Esport". Terdapat huruf B, E, S, dan T di dalam logo yang menandakan bahwa logo tersebut milik kebanggaan Universitas Brawijaya.',
       zoom: { scale: 0.9, x: 0, y: -30 },
       icon: Type
     },
@@ -38,7 +38,7 @@ const About: React.FC = () => {
     },
     {
       title: "Bintang",
-      description: "Menandakan bahwa BEST memiliki harapan yang tinggi dan akan terus berkembang. Memancarkan sinar dan menjadi pusat perhatian serta penuntun bagi pecinta esports.",
+      description: "Menandakan bahwa Brawijaya Esport memiliki harapan yang tinggi dan akan terus berkembang. Memancarkan sinar dan menjadi pusat perhatian serta penuntun bagi pecinta esports.",
       zoom: { scale: 0.6, x: 0, y: 150 },
       icon: Star
     }
@@ -74,7 +74,7 @@ const About: React.FC = () => {
             <GlitchReveal>
               <div className="inline-flex items-center gap-2 md:gap-3 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-primary/20 bg-primary/5 mb-4 md:mb-6">
                 <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-primary animate-pulse"></span>
-                <span className="text-primary font-sans text-xs md:text-sm font-bold tracking-[0.2em] uppercase">TENTANG BEST</span>
+                <span className="text-primary font-sans text-xs md:text-sm font-bold tracking-[0.2em] uppercase">TENTANG BRAWIJAYA ESPORT</span>
                 <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-primary animate-pulse"></span>
               </div>
             </GlitchReveal>
@@ -235,24 +235,24 @@ const About: React.FC = () => {
                       <div className="relative w-full h-full max-w-2xl mx-auto group flex justify-center items-center pointer-events-none">
                         <motion.div
                           animate={{
-                            scale: philosophies[currentIndex].zoom.scale,
-                            x: philosophies[currentIndex].zoom.x,
-                            y: philosophies[currentIndex].zoom.y
+                            scale: philosophies[currentIndex].zoom.scale * (window.innerWidth < 640 ? 0.7 : 1),
+                            x: philosophies[currentIndex].zoom.x * (window.innerWidth < 640 ? 0.5 : 1),
+                            y: philosophies[currentIndex].zoom.y * (window.innerWidth < 640 ? 0.5 : 1)
                           }}
                           transition={{ type: "spring", stiffness: 60, damping: 20 }}
-                          className="relative w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] md:w-[600px] md:h-[600px] shrink-0 flex items-center justify-center z-10"
+                          className="relative w-[180px] h-[180px] sm:w-[350px] sm:h-[350px] md:w-[600px] md:h-[600px] shrink-0 flex items-center justify-center z-10"
                         >
                           {/* Changed glow colors to be brighter and use mix-blend-screen to avoid dark/muddy artifacts */}
-                          <div className="absolute inset-0 bg-yellow-400/30 rounded-full blur-[60px] md:blur-[80px] animate-pulse mix-blend-screen"></div>
+                          <div className="absolute inset-0 bg-yellow-400/30 rounded-full blur-[40px] md:blur-[80px] animate-pulse mix-blend-screen"></div>
                           <Logo3D size="large" className="!w-full !h-full relative z-10" />
                         </motion.div>
                       </div>
 
                       <button
                         onClick={nextSlide}
-                        className="absolute right-4 sm:right-12 md:right-24 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-md"
+                        className="absolute right-1 sm:right-4 md:right-24 z-20 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:bg-primary/20 hover:text-primary hover:border-primary/50 transition-all duration-300 backdrop-blur-md"
                       >
-                        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
                       </button>
                     </div>
 

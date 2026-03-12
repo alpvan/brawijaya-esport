@@ -34,7 +34,7 @@ const App: React.FC = () => {
   }, [setUser, setLoading]);
 
   return (
-    <Router basename="/LandingBuatBEST">
+    <Router basename="/brawijaya-esport">
       <Routes>
         <Route path="/" element={<LandingPage />} />
 

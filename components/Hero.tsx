@@ -126,7 +126,7 @@ const Hero: React.FC = () => {
 
               {/* Description */}
               <p className="mt-6 md:mt-8 max-w-2xl text-sm md:text-lg text-gray-400 leading-relaxed">
-                {hero?.description || "Unit Kegiatan Mahasiswa (UKM) Brawijaya E-Sport (BEST) adalah komunitas e-sports di Universitas Brawijaya. Sejak 2021, kami mewadahi 800+ anggota dan membina tim kompetitif (MLBB, HOK, PUBGM, Valorant) untuk berprestasi di tingkat nasional dengan menjunjung tinggi sportivitas."}
+                {hero?.description || "Unit Kegiatan Mahasiswa (UKM) Brawijaya Esport adalah komunitas e-sports di Universitas Brawijaya. Sejak 2021, kami mewadahi 800+ anggota dan membina tim kompetitif (MLBB, HOK, PUBGM, Valorant) untuk berprestasi di tingkat nasional dengan menjunjung tinggi sportivitas."}
               </p>
 
               {/* CTA Buttons */}
@@ -171,11 +171,11 @@ const Hero: React.FC = () => {
           </div>
 
           {/* Logo Section */}
-          <div ref={logoRef} className="relative order-1 lg:order-2 flex justify-center lg:justify-end will-change-transform z-30">
-            <div className="animate-float relative group cursor-pointer">
+          <div ref={logoRef} className="relative order-1 lg:order-2 flex justify-center lg:justify-end will-change-transform z-30 mb-8 lg:mb-0">
+            <div className="animate-float relative group cursor-pointer scale-75 sm:scale-90 lg:scale-100">
               {/* Multiple layered glows - more intense on hover */}
-              <div className="absolute inset-0 rounded-full bg-primary/30 blur-[120px] scale-[2] animate-pulse group-hover:bg-primary/50 transition-all duration-500"></div>
-              <div className="absolute inset-0 rounded-full bg-amber-500/20 blur-[80px] scale-150 group-hover:bg-amber-500/40 transition-all duration-500"></div>
+              <div className="absolute inset-0 rounded-full bg-primary/30 blur-[60px] md:blur-[120px] scale-[2] animate-pulse group-hover:bg-primary/50 transition-all duration-500"></div>
+              <div className="absolute inset-0 rounded-full bg-amber-500/20 blur-[40px] md:blur-[80px] scale-150 group-hover:bg-amber-500/40 transition-all duration-500"></div>
 
               {/* Decorative rings - animate on hover */}
               <div className="absolute inset-[-30px] rounded-full border border-primary/20 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-500"></div>
@@ -240,12 +240,12 @@ const Hero: React.FC = () => {
       <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent border-t border-white/5 py-6 z-40 overflow-hidden group">
         <div className="flex items-center relative">
           {/* Label */}
-          <div className="hidden md:flex items-center h-full px-8 bg-black/50 backdrop-blur-xl border-r border-white/10 z-10 absolute left-0 top-0 bottom-0">
+          <div className="hidden lg:flex items-center h-full px-8 bg-black/50 backdrop-blur-xl border-r border-white/10 z-10 absolute left-0 top-0 bottom-0">
             <span className="text-xs font-sans font-bold text-gray-500 uppercase tracking-widest">didukung oleh</span>
           </div>
 
           {/* Scrolling Logos */}
-          <div className="flex items-center gap-12 animate-[marquee_20s_linear_infinite] group-hover:[animation-play-state:paused] pl-4 md:pl-40">
+          <div className="flex items-center gap-12 animate-[marquee_20s_linear_infinite] group-hover:[animation-play-state:paused] pl-4 lg:pl-40">
             {/* Real Sponsors */}
             {[
               "Moonton",
