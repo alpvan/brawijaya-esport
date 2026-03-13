@@ -147,7 +147,7 @@ const Hero: React.FC = () => {
                            transition-all duration-300 text-center flex items-center justify-center gap-2 w-full sm:w-auto"
                 >
                   <Calendar className="w-4 h-4" />
-                  LIHAT ACARA
+                  DAFTAR
                 </a>
               </div>
 
