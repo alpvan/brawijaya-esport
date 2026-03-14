@@ -34,6 +34,7 @@ export interface EventItem {
     formFields?: FormField[];
     successTitle?: string;
     successMessage?: string;
+    externalLink?: string;
     // Customizable detail cards for the "Pelajari Lebih Lanjut" modal
     detailCards?: DetailCard[];
 }

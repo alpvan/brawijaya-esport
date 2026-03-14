@@ -27,6 +27,7 @@ const emptyEvent: Omit<EventItem, 'id'> = {
     ],
     successTitle: 'Pendaftaran Berhasil!',
     successMessage: 'Anda telah berhasil mendaftar. Kami akan menghubungi Anda melalui WhatsApp atau Instagram segera.',
+    externalLink: '',
 };
 
 export const EventsEditor = () => {
@@ -250,6 +251,12 @@ export const EventsEditor = () => {
                                     <input name="tag" value={formData.tag} onChange={handleChange}
                                         className="w-full bg-zinc-900 border border-zinc-700 focus:border-[#00f0ff] rounded-lg p-3 text-white outline-none"
                                         placeholder="Contoh: Selesai" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm text-gray-400">Tautan Eksternal (Opsional)</label>
+                                    <input name="externalLink" value={formData.externalLink} onChange={handleChange}
+                                        className="w-full bg-zinc-900 border border-zinc-700 focus:border-[#00f0ff] rounded-lg p-3 text-white outline-none"
+                                        placeholder="Contoh: https://wa.me/... atau link form" />
                                 </div>
                                 <div className="space-y-4 md:col-span-2">
                                     <div className="flex items-center gap-3">

@@ -106,24 +106,26 @@ export const PrestasiEditor = () => {
             {loading ? (
                 <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-gray-400" /></div>
             ) : items.length === 0 ? (
-                <div className="text-center py-16 text-gray-500">
-                    <Upload className="w-12 h-12 mx-auto mb-4 opacity-40" />
-                    <p>Belum ada gambar. Klik &quot;Upload Gambar Baru&quot; untuk menambahkan.</p>
+                <div className="text-center py-16 text-gray-500 bg-zinc-950 border border-dashed border-zinc-800 rounded-2xl">
+                    <Upload className="w-12 h-12 mx-auto mb-4 opacity-40 text-gray-400" />
+                    <p className="font-medium">Belum ada gambar prestasi.</p>
+                    <p className="text-sm mt-1">Klik "Upload Gambar Baru" untuk mulai menambahkan momen berharga.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {items.map((item) => (
-                        <div key={item.id} className="bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden group">
+                        <div key={item.id} className="bg-zinc-950 border border-zinc-800/80 rounded-2xl overflow-hidden group hover:border-[#00f0ff]/30 transition-all hover:shadow-[0_0_20px_rgba(0,240,255,0.05)]">
                             <div className="relative aspect-video bg-zinc-900">
                                 <img src={item.src} alt={item.title} className="w-full h-full object-cover" />
                                 <button
                                     onClick={() => handleDelete(item.id)}
-                                    className="absolute top-2 right-2 w-8 h-8 bg-red-500/80 hover:bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
+                                    className="absolute top-3 right-3 w-8 h-8 bg-black/50 backdrop-blur-md hover:bg-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all border border-white/10"
                                 >
                                     <Trash2 className="w-4 h-4 text-white" />
                                 </button>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </div>
-                            <div className="p-4 space-y-3">
+                            <div className="p-5 space-y-4">
                                 <div>
                                     <label className="text-xs text-gray-500 mb-1 block">Judul</label>
                                     <input

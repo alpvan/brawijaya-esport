@@ -109,14 +109,26 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ isOpen, onClose, 
             </div>
           )}
 
-          {(event.btn === 'Daftar' || event.btn === 'Info') && event.active && (
-            <div className="pt-4 border-t border-gray-800">
-              <button
-                onClick={onRegister}
-                className="w-full bg-primary text-black font-sans font-bold text-lg py-4 hover:bg-white hover:shadow-glow transition-all duration-300 clip-polygon uppercase tracking-wider flex items-center justify-center gap-2"
-              >
-                {event.btn === 'Daftar' ? 'Daftar Sekarang' : 'Informasi Lebih Lanjut'}
-              </button>
+          {(event.btn === 'Daftar' || event.btn === 'Info' || event.externalLink) && event.active && (
+            <div className="pt-4 border-t border-gray-800 flex flex-col gap-3">
+              {(event.btn === 'Daftar' || event.btn === 'Info') && (
+                <button
+                  onClick={onRegister}
+                  className="w-full bg-primary text-black font-sans font-bold text-lg py-4 hover:bg-white hover:shadow-glow transition-all duration-300 clip-polygon uppercase tracking-wider flex items-center justify-center gap-2"
+                >
+                  {event.btn === 'Daftar' ? 'Daftar Sekarang' : 'Informasi Lebih Lanjut'}
+                </button>
+              )}
+              {event.externalLink && (
+                <a
+                  href={event.externalLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full border border-primary text-primary hover:bg-primary/10 font-sans font-bold text-lg py-4 transition-all duration-300 clip-polygon uppercase tracking-wider flex items-center justify-center gap-2"
+                >
+                  Buka Tautan Eksternal <Zap className="w-5 h-5" />
+                </a>
+              )}
             </div>
           )}
         </div>

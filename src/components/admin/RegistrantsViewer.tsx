@@ -1,44 +1,91 @@
-import React, { useEffect, useState } from 'react';
-import { useRegistrantsStore } from '../../store/useRegistrantsStore';
-import { Loader2, Users, Search, Download, Trash2, AlertTriangle } from 'lucide-react';
+import React, { useEffect, useState, useMemo } from 'react';
+import { useRegistrantsStore, RegistrantItem } from '../../store/useRegistrantsStore';
+import { useEventsStore } from '../../store/useEventsStore';
+import { Loader2, Users, Search, Download, Trash2, ChevronLeft, ChevronRight, Eye, X } from 'lucide-react';
+import { format } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 export const RegistrantsViewer = () => {
     const { registrantsList, loading, fetchRegistrants, clearRegistrants } = useRegistrantsStore();
+    const { eventsList, fetchEvents } = useEventsStore();
     const [search, setSearch] = useState('');
     const [filterEvent, setFilterEvent] = useState('');
     const [isConfirmingClear, setIsConfirmingClear] = useState(false);
     const [isClearing, setIsClearing] = useState(false);
+    const [selectedRegistrant, setSelectedRegistrant] = useState<RegistrantItem | null>(null);
+
+    // Pagination states
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
     useEffect(() => {
         fetchRegistrants();
-    }, [fetchRegistrants]);
+        fetchEvents();
+    }, [fetchRegistrants, fetchEvents]);
 
     // Get unique event names for filter dropdown
     const eventNames = Array.from(new Set(registrantsList.map((r) => r.eventName)));
 
-    const filtered = registrantsList.filter((r) => {
-        const matchesSearch =
-            r.namaLengkap?.toLowerCase().includes(search.toLowerCase()) ||
-            r.nim?.toLowerCase().includes(search.toLowerCase()) ||
-            r.fakultas?.toLowerCase().includes(search.toLowerCase());
-        const matchesEvent = filterEvent ? r.eventName === filterEvent : true;
-        return matchesSearch && matchesEvent;
-    });
+    // Get form fields for the currently filtered event
+    const activeEventFields = useMemo(() => {
+        if (!filterEvent) return null;
+        const ev = eventsList.find(e => e.title === filterEvent);
+        return ev?.formFields || null;
+    }, [filterEvent, eventsList]);
+
+    const filtered = useMemo(() => {
+        return registrantsList.filter((r) => {
+            const matchesSearch =
+                r.namaLengkap?.toLowerCase().includes(search.toLowerCase()) ||
+                r.nim?.toLowerCase().includes(search.toLowerCase()) ||
+                r.fakultas?.toLowerCase().includes(search.toLowerCase());
+            const matchesEvent = filterEvent ? r.eventName === filterEvent : true;
+            return matchesSearch && matchesEvent;
+        });
+    }, [registrantsList, search, filterEvent]);
+
+    const totalPages = Math.ceil(filtered.length / itemsPerPage);
+    const paginatedData = useMemo(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        return filtered.slice(startIndex, startIndex + itemsPerPage);
+    }, [filtered, currentPage]);
+
+    // Reset to page 1 when filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [search, filterEvent]);
 
     const handleExportCSV = () => {
-        const headers = ['Waktu', 'Acara', 'Nama', 'NIM', 'Fakultas', 'Telepon', 'Instagram'];
-        const rows = filtered.map((r) => [
-            r.timestamp?.toDate?.()?.toLocaleString('id-ID') ?? '-',
-            r.eventName,
-            r.namaLengkap,
-            r.nim,
-            r.fakultas,
-            r.telepon,
-            r.instagram,
-        ]);
+        // Find all unique keys present in the filtered data to ensure nothing is missed
+        const allKeys = new Set<string>(['timestamp', 'eventName']);
+        filtered.forEach(r => {
+            Object.keys(r).forEach(k => {
+                if (k !== 'id' && k !== 'timestamp' && k !== 'eventName') {
+                    allKeys.add(k);
+                }
+            });
+        });
+
+        const headers = Array.from(allKeys).map(k => {
+            if (k === 'timestamp') return 'Waktu';
+            if (k === 'eventName') return 'Acara';
+            // Try to find a label for this key from event fields
+            const field = eventsList.flatMap(e => e.formFields || []).find(f => f.key === k);
+            return field?.label || k;
+        });
+
+        const rows = filtered.map((r: any) => {
+            return Array.from(allKeys).map(k => {
+                const val = r[k];
+                if (k === 'timestamp') return r.timestamp?.toDate?.()?.toLocaleString('id-ID') ?? '-';
+                return val || '-';
+            });
+        });
+
         const csvContent =
             'data:text/csv;charset=utf-8,' +
-            [headers, ...rows].map((row) => row.map((v) => `"${v}"`).join(',')).join('\n');
+            [headers, ...rows].map((row) => row.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+        
         const link = document.createElement('a');
         link.href = encodeURI(csvContent);
         link.download = `pendaftar-${filterEvent || 'semua'}-${new Date().toLocaleDateString('id-ID').replace(/\//g, '-')}.csv`;
@@ -59,7 +106,7 @@ export const RegistrantsViewer = () => {
     };
 
     return (
-        <div className="bg-zinc-900 border border-zinc-800 p-6 md:p-8 rounded-2xl">
+        <div className="bg-zinc-900 border border-zinc-800 p-6 md:p-8 rounded-2xl relative">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
                     <h2 className="text-xl font-bold text-white">Data Pendaftar</h2>
@@ -135,46 +182,152 @@ export const RegistrantsViewer = () => {
                     <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
                 </div>
             ) : filtered.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">
-                    <Users className="w-10 h-10 mx-auto mb-3 opacity-40" />
-                    <p>Belum ada data pendaftar.</p>
+                <div className="text-center py-12 text-gray-500 bg-zinc-950 rounded-xl border border-dashed border-zinc-800">
+                    <Users className="w-10 h-10 mx-auto mb-3 opacity-40 text-gray-400" />
+                    <p className="font-medium text-gray-400">Belum ada data pendaftar.</p>
+                    {search || filterEvent ? <p className="text-xs mt-1">Coba ubah kata kunci atau filter Anda.</p> : null}
                 </div>
             ) : (
-                <div className="overflow-x-auto rounded-xl border border-zinc-800">
-                    <table className="w-full text-sm">
-                        <thead>
-                            <tr className="bg-zinc-950 text-gray-400 border-b border-zinc-800">
-                                <th className="text-left px-4 py-3 font-semibold">#</th>
-                                <th className="text-left px-4 py-3 font-semibold whitespace-nowrap">Waktu Daftar</th>
-                                <th className="text-left px-4 py-3 font-semibold whitespace-nowrap">Nama Lengkap</th>
-                                <th className="text-left px-4 py-3 font-semibold">NIM</th>
-                                <th className="text-left px-4 py-3 font-semibold">Fakultas</th>
-                                <th className="text-left px-4 py-3 font-semibold">Telepon</th>
-                                <th className="text-left px-4 py-3 font-semibold">Instagram</th>
-                                <th className="text-left px-4 py-3 font-semibold">Acara</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filtered.map((r, index) => (
-                                <tr key={r.id} className="border-b border-zinc-800/60 hover:bg-zinc-800/40 transition-colors">
-                                    <td className="px-4 py-3 text-gray-500">{index + 1}</td>
-                                    <td className="px-4 py-3 text-gray-400 whitespace-nowrap">
-                                        {r.timestamp?.toDate?.()?.toLocaleString('id-ID') ?? '-'}
-                                    </td>
-                                    <td className="px-4 py-3 text-white font-medium">{r.namaLengkap}</td>
-                                    <td className="px-4 py-3 text-gray-300">{r.nim}</td>
-                                    <td className="px-4 py-3 text-gray-300">{r.fakultas}</td>
-                                    <td className="px-4 py-3 text-gray-300">{r.telepon}</td>
-                                    <td className="px-4 py-3 text-[#00f0ff]">{r.instagram}</td>
-                                    <td className="px-4 py-3">
-                                        <span className="px-2 py-1 rounded-full bg-yellow-400/10 text-yellow-400 border border-yellow-400/30 text-xs whitespace-nowrap">
-                                            {r.eventName}
-                                        </span>
-                                    </td>
+                <div className="bg-zinc-950 rounded-xl border border-zinc-800 overflow-hidden flex flex-col">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-sm text-left">
+                            <thead className="bg-zinc-900 border-b border-zinc-800 sticky top-0 z-10 shadow-sm">
+                                <tr>
+                                    <th className="px-4 py-4 font-bold text-[#00f0ff] uppercase tracking-wider text-[10px]">#</th>
+                                    <th className="px-4 py-4 font-bold text-gray-400 uppercase tracking-wider text-[10px] whitespace-nowrap">Waktu Daftar</th>
+                                    <th className="px-4 py-4 font-bold text-gray-400 uppercase tracking-wider text-[10px] whitespace-nowrap">Nama Lengkap</th>
+                                    <th className="px-4 py-4 font-bold text-gray-400 uppercase tracking-wider text-[10px]">NIM</th>
+                                    <th className="px-4 py-4 font-bold text-gray-400 uppercase tracking-wider text-[10px]">Fakultas</th>
+                                    {!filterEvent && <th className="px-4 py-4 font-bold text-gray-400 uppercase tracking-wider text-[10px]">Acara</th>}
+                                    <th className="px-4 py-4 font-bold text-gray-400 uppercase tracking-wider text-[10px] text-right">Aksi</th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                {paginatedData.map((r, index) => (
+                                    <tr key={r.id} className="border-b border-zinc-800/60 hover:bg-zinc-800/50 transition-colors group">
+                                        <td className="px-4 py-3 text-gray-500 font-mono text-xs">{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                                        <td className="px-4 py-3 text-gray-400 whitespace-nowrap text-xs">
+                                            {r.timestamp?.toDate ? format(r.timestamp.toDate(), 'dd MMM yyyy, HH:mm', { locale: id }) : '-'}
+                                        </td>
+                                        <td className="px-4 py-3 text-white font-medium">{r.namaLengkap}</td>
+                                        <td className="px-4 py-3 text-gray-400 font-mono text-xs">{r.nim}</td>
+                                        <td className="px-4 py-3 text-gray-300 text-xs">{r.fakultas}</td>
+                                        {!filterEvent && (
+                                            <td className="px-4 py-3">
+                                                <span className="inline-block px-2 py-0.5 rounded-full bg-yellow-400/10 text-yellow-400 border border-yellow-400/30 text-[9px] font-bold uppercase tracking-wider">
+                                                    {r.eventName}
+                                                </span>
+                                            </td>
+                                        )}
+                                        <td className="px-4 py-3 text-right">
+                                            <button 
+                                                onClick={() => setSelectedRegistrant(r)}
+                                                className="p-2 text-gray-500 hover:text-[#00f0ff] hover:bg-[#00f0ff]/10 rounded-lg transition-all"
+                                                title="Lihat Detail Lengkap"
+                                            >
+                                                <Eye className="w-4 h-4" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    {/* Pagination Controls */}
+                    {totalPages > 1 && (
+                        <div className="px-4 py-3 flex items-center justify-between border-t border-zinc-800 bg-zinc-900/50">
+                            <span className="text-xs text-gray-500">
+                                Menampilkan <span className="font-bold text-white">{(currentPage - 1) * itemsPerPage + 1}</span> hingga <span className="font-bold text-white">{Math.min(currentPage * itemsPerPage, filtered.length)}</span> dari <span className="font-bold text-white">{filtered.length}</span> pendaftar
+                            </span>
+                            <div className="flex gap-1">
+                                <button 
+                                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                    disabled={currentPage === 1}
+                                    className="p-1 rounded bg-zinc-800 text-gray-400 hover:text-white disabled:opacity-30 transition-colors"
+                                >
+                                    <ChevronLeft className="w-5 h-5" />
+                                </button>
+                                <div className="flex items-center px-3 text-xs font-bold text-white">
+                                    {currentPage} / {totalPages}
+                                </div>
+                                <button 
+                                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                    disabled={currentPage === totalPages}
+                                    className="p-1 rounded bg-zinc-800 text-gray-400 hover:text-white disabled:opacity-30 transition-colors"
+                                >
+                                    <ChevronRight className="w-5 h-5" />
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* Detail Modal */}
+            {selectedRegistrant && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+                    <div className="relative w-full max-w-md bg-zinc-950 border border-white/10 rounded-3xl overflow-hidden shadow-2xl animate-scale-in">
+                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00f0ff] to-transparent opacity-50"></div>
+                        
+                        <div className="p-6 border-b border-zinc-800 flex items-center justify-between bg-zinc-900/50">
+                            <div>
+                                <h3 className="text-lg font-bold text-white">Detail Pendaftar</h3>
+                                <p className="text-[10px] text-gray-500 uppercase tracking-widest font-black mt-0.5">{selectedRegistrant.eventName}</p>
+                            </div>
+                            <button 
+                                onClick={() => setSelectedRegistrant(null)}
+                                className="p-2 text-gray-500 hover:text-white hover:bg-white/5 rounded-full transition-all"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto no-scrollbar">
+                            {/* Standard Fields */}
+                            {[
+                                { label: 'Waktu Daftar', val: selectedRegistrant.timestamp?.toDate ? format(selectedRegistrant.timestamp.toDate(), 'dd MMMM yyyy, HH:mm', { locale: id }) : '-' },
+                                { label: 'Nama Lengkap', val: selectedRegistrant.namaLengkap },
+                                { label: 'NIM', val: selectedRegistrant.nim },
+                                { label: 'Fakultas', val: selectedRegistrant.fakultas },
+                                { label: 'Telepon / WA', val: selectedRegistrant.telepon },
+                                { label: 'Instagram', val: selectedRegistrant.instagram },
+                            ].map((item, i) => (
+                                <div key={i} className="space-y-1">
+                                    <label className="text-[9px] text-gray-600 uppercase font-black tracking-widest">{item.label}</label>
+                                    <p className="text-sm text-white font-medium bg-zinc-900/50 p-2.5 rounded-xl border border-zinc-800/50">{item.val || '-'}</p>
+                                </div>
                             ))}
-                        </tbody>
-                    </table>
+
+                            {/* Additional Custom Fields */}
+                            {Object.entries(selectedRegistrant)
+                                .filter(([key]) => !['id', 'eventName', 'namaLengkap', 'nim', 'fakultas', 'telepon', 'instagram', 'timestamp'].includes(key))
+                                .map(([key, val]) => {
+                                    // Try to find label from events
+                                    const fieldDefinition = eventsList
+                                        .find(e => e.title === selectedRegistrant.eventName)
+                                        ?.formFields?.find(f => f.key === key);
+                                    
+                                    return (
+                                        <div key={key} className="space-y-1">
+                                            <label className="text-[9px] text-[#00f0ff] uppercase font-black tracking-widest">
+                                                {fieldDefinition?.label || key}
+                                            </label>
+                                            <p className="text-sm text-white font-medium bg-zinc-900/50 p-2.5 rounded-xl border border-[#00f0ff]/10">{String(val)}</p>
+                                        </div>
+                                    );
+                                })}
+                        </div>
+
+                        <div className="p-6 bg-zinc-900/30 border-t border-zinc-800">
+                            <button 
+                                onClick={() => setSelectedRegistrant(null)}
+                                className="w-full py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl transition-all text-xs uppercase tracking-widest"
+                            >
+                                Tutup
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

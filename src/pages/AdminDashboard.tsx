@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
-import { LogOut, Calendar, Trophy, Users, Settings } from 'lucide-react';
+import { LogOut, Calendar, Trophy, Users, Settings, LayoutDashboard } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
+import { OverviewDashboard } from '../components/admin/OverviewDashboard';
 import { PrestasiEditor } from '../components/admin/PrestasiEditor';
 import { EventsEditor } from '../components/admin/EventsEditor';
 import { RegistrantsViewer } from '../components/admin/RegistrantsViewer';
 
 const tabs = [
+    { id: 'overview', label: 'Overview', icon: LayoutDashboard },
     { id: 'prestasi', label: 'Gambar Prestasi', icon: Trophy },
     { id: 'events', label: 'Kelola Acara', icon: Calendar },
     { id: 'registrants', label: 'Data Pendaftar', icon: Users },
@@ -17,7 +19,7 @@ const tabs = [
 export const AdminDashboard = () => {
     const navigate = useNavigate();
     const { user } = useAuthStore();
-    const [activeTab, setActiveTab] = useState('prestasi');
+    const [activeTab, setActiveTab] = useState('overview');
 
     const handleLogout = async () => {
         try {
@@ -67,6 +69,7 @@ export const AdminDashboard = () => {
                     </div>
 
                     <div className="lg:flex-1">
+                        {activeTab === 'overview' && <OverviewDashboard />}
                         {activeTab === 'prestasi' && <PrestasiEditor />}
                         {activeTab === 'events' && <EventsEditor />}
                         {activeTab === 'registrants' && <RegistrantsViewer />}
