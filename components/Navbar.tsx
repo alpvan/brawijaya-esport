@@ -94,16 +94,16 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenSupport }) => {
           <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className="flex items-center space-x-0.5 bg-white/5 rounded-xl p-0.5 border border-white/5">
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target={link.external ? '_blank' : undefined}
-                  rel={link.external ? 'noopener noreferrer' : undefined}
-                  className={`relative px-4 py-1.5 rounded-lg font-sans text-[11px] font-bold uppercase tracking-widest transition-all duration-300 ${activeSection === link.id
-                    ? 'text-black bg-primary shadow-[0_0_15px_rgba(255,215,0,0.3)]'
-                    : 'text-gray-300 hover:text-white hover:bg-white/10'
-                    }`}
-                >
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    target={link.external || link.href.startsWith('http') ? '_blank' : undefined}
+                    rel={link.external || link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className={`relative px-4 py-1.5 rounded-lg font-sans text-[11px] font-bold uppercase tracking-widest transition-all duration-300 ${activeSection === link.id
+                      ? 'text-black bg-primary shadow-[0_0_15px_rgba(255,215,0,0.3)]'
+                      : 'text-gray-300 hover:text-white hover:bg-white/10'
+                      }`}
+                  >
                   {link.name}
                 </a>
               ))}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useEventsStore, EventItem, DetailCard } from '../../store/useEventsStore';
-import { Plus, Trash2, Save, Loader2, Check, X } from 'lucide-react';
+import { Plus, Trash2, Save, Loader2, Check, X, Copy, ChevronLeft } from 'lucide-react';
 
 const emptyEvent: Omit<EventItem, 'id'> = {
     title: '',
@@ -146,6 +146,28 @@ export const EventsEditor = () => {
         } catch (err) {
             alert('Gagal menghapus acara.');
         }
+    };
+
+    const handleDuplicate = (event: EventItem) => {
+        const { id, ...rest } = event;
+        setFormData({
+            ...rest,
+            title: `${rest.title} (Copy)`
+        });
+        setEditingId(null);
+        setShowForm(true);
+    };
+
+    const moveField = (index: number, direction: 'up' | 'down') => {
+        const newFields = [...(formData.formFields || [])];
+        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        if (newIndex < 0 || newIndex >= newFields.length) return;
+        
+        const temp = newFields[index];
+        newFields[index] = newFields[newIndex];
+        newFields[newIndex] = temp;
+        
+        setFormData(prev => ({ ...prev, formFields: newFields }));
     };
 
     return (
@@ -380,6 +402,24 @@ export const EventsEditor = () => {
                                 {(formData.formFields || []).map((field, idx) => (
                                     <div key={field.key} className="bg-zinc-900/40 p-5 rounded-xl border border-zinc-800/50 space-y-4 group transition-all hover:border-[#00f0ff]/20">
                                         <div className="flex flex-wrap gap-4 items-end">
+                                            <div className="flex flex-col gap-1 items-center justify-center bg-zinc-950 p-2 rounded-lg border border-zinc-800">
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => moveField(idx, 'up')}
+                                                    disabled={idx === 0}
+                                                    className="p-1 text-gray-500 hover:text-[#00f0ff] disabled:opacity-20"
+                                                >
+                                                    <ChevronLeft className="w-4 h-4 rotate-90" />
+                                                </button>
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => moveField(idx, 'down')}
+                                                    disabled={idx === (formData.formFields?.length || 0) - 1}
+                                                    className="p-1 text-gray-500 hover:text-[#00f0ff] disabled:opacity-20"
+                                                >
+                                                    <ChevronLeft className="w-4 h-4 -rotate-90" />
+                                                </button>
+                                            </div>
                                             <div className="flex-1 min-w-[200px] space-y-1">
                                                 <label className="text-[10px] text-gray-500 uppercase font-black tracking-widest">Label Field</label>
                                                 <input value={field.label} onChange={(e) => handleFieldChange(field.key, {label: e.target.value})}
@@ -497,6 +537,12 @@ export const EventsEditor = () => {
                                 </div>
                             </div>
                             <div className="flex gap-2 shrink-0">
+                                <button onClick={() => handleDuplicate(event)}
+                                    className="px-3 py-2 text-sm border border-zinc-700 text-gray-400 hover:text-[#00f0ff] rounded-lg transition-colors"
+                                    title="Duplikat Acara (Copy Form)"
+                                >
+                                    <Copy className="w-4 h-4" />
+                                </button>
                                 <button onClick={() => handleEdit(event)}
                                     className="px-4 py-2 text-sm border border-zinc-700 text-gray-400 hover:text-white rounded-lg transition-colors">
                                     Edit

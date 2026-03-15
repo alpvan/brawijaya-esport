@@ -88,7 +88,24 @@ const EventDetailsModal: React.FC<EventDetailsModalProps> = ({ isOpen, onClose, 
           <div className="prose prose-invert max-w-none mb-8">
             <h4 className="text-white font-sans font-bold text-lg mb-2">Deskripsi</h4>
             <p className="text-gray-300 leading-relaxed text-sm md:text-base whitespace-pre-line">
-              {event.content || event.desc}
+              {(() => {
+                const text = event.content || event.desc;
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                const parts = text.split(urlRegex);
+                return parts.map((part, i) => 
+                  urlRegex.test(part) ? (
+                    <a 
+                      key={i} 
+                      href={part} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-primary hover:underline"
+                    >
+                      {part}
+                    </a>
+                  ) : part
+                );
+              })()}
             </p>
           </div>
 

@@ -157,7 +157,24 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                 {event.successTitle || 'Berhasil!'}
               </h3>
               <p className="text-gray-400 mb-10 max-w-xs leading-relaxed text-sm">
-                {event.successMessage || 'Pendaftaran Anda telah kami terima.'}
+                {(() => {
+                  const text = event.successMessage || 'Pendaftaran Anda telah kami terima.';
+                  const urlRegex = /(https?:\/\/[^\s]+)/g;
+                  const parts = text.split(urlRegex);
+                  return parts.map((part, i) => 
+                    urlRegex.test(part) ? (
+                      <a 
+                        key={i} 
+                        href={part} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-primary hover:underline break-all"
+                      >
+                        {part}
+                      </a>
+                    ) : part
+                  );
+                })()}
               </p>
               <button
                 onClick={onClose}

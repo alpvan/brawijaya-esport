@@ -48,7 +48,7 @@ const Contact: React.FC<ContactProps> = ({ onOpenSupport }) => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
               <div className="relative group">
                 <a
-                  href="http://wa.me/6285706094282"
+                  href="https://wa.me/6285706094282"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex flex-1 items-center justify-center gap-3 px-8 py-4 w-full sm:w-auto rounded-xl bg-gradient-to-r from-primary to-yellow-400 text-black font-sans text-sm font-bold uppercase tracking-wider hover:shadow-[0_0_40px_rgba(255,215,0,0.4)] hover:scale-105 transition-all duration-300"

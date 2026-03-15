@@ -209,7 +209,22 @@ export const RegistrantsViewer = () => {
                                         <td className="px-4 py-3 text-gray-400 whitespace-nowrap text-xs">
                                             {r.timestamp?.toDate ? format(r.timestamp.toDate(), 'dd MMM yyyy, HH:mm', { locale: id }) : '-'}
                                         </td>
-                                        <td className="px-4 py-3 text-white font-medium">{r.namaLengkap}</td>
+                                        <td className="px-4 py-3 text-white font-medium">
+                                            <div className="flex items-center gap-2">
+                                                {r.namaLengkap}
+                                                {r.telepon && (
+                                                    <a 
+                                                        href={`https://wa.me/${r.telepon.replace(/\D/g, '').replace(/^0/, '62')}`} 
+                                                        target="_blank" 
+                                                        rel="noopener noreferrer"
+                                                        className="text-green-500 hover:text-green-400 transition-colors"
+                                                        title="Chat via WhatsApp"
+                                                    >
+                                                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479s1.04 2.872 1.185 3.07c.145.198 2.046 3.123 4.956 4.378.692.298 1.232.476 1.652.61.696.22 1.328.19 1.83.115.56-.083 1.72-.703 1.963-1.383.243-.68.243-1.264.17-1.383-.074-.119-.272-.192-.57-.341zM12.01 21.003L12 21c-1.608 0-3.187-.433-4.562-1.252l-.327-.195-3.391.889.905-3.307-.215-.341C3.585 15.397 3 13.734 3 12c0-4.962 4.037-9 9-9s9 4.037 9 9-4.037 9-9 9zm0-19.5c-5.79 0-10.5 4.71-10.5 10.5 0 1.847.485 3.652 1.408 5.245L1 23l5.895-1.545C8.428 22.455 10.2 23 12.01 23c5.79 0 10.5-4.71 10.5-10.5S17.8 1.5 12.01 1.5z"/></svg>
+                                                    </a>
+                                                )}
+                                            </div>
+                                        </td>
                                         <td className="px-4 py-3 text-gray-400 font-mono text-xs">{r.nim}</td>
                                         <td className="px-4 py-3 text-gray-300 text-xs">{r.fakultas}</td>
                                         {!filterEvent && (
@@ -290,11 +305,23 @@ export const RegistrantsViewer = () => {
                                 { label: 'Nama Lengkap', val: selectedRegistrant.namaLengkap },
                                 { label: 'NIM', val: selectedRegistrant.nim },
                                 { label: 'Fakultas', val: selectedRegistrant.fakultas },
-                                { label: 'Telepon / WA', val: selectedRegistrant.telepon },
+                                { label: 'Telepon / WA', val: selectedRegistrant.telepon, isPhone: true },
                                 { label: 'Instagram', val: selectedRegistrant.instagram },
                             ].map((item, i) => (
                                 <div key={i} className="space-y-1">
-                                    <label className="text-[9px] text-gray-600 uppercase font-black tracking-widest">{item.label}</label>
+                                    <div className="flex justify-between items-center mb-1">
+                                        <label className="text-[9px] text-gray-600 uppercase font-black tracking-widest">{item.label}</label>
+                                        {item.isPhone && item.val && (
+                                            <a 
+                                                href={`https://wa.me/${item.val.replace(/\D/g, '').replace(/^0/, '62')}`} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="text-[9px] font-bold text-green-500 hover:text-green-400 uppercase tracking-widest flex items-center gap-1"
+                                            >
+                                                Chat WhatsApp
+                                            </a>
+                                        )}
+                                    </div>
                                     <p className="text-sm text-white font-medium bg-zinc-900/50 p-2.5 rounded-xl border border-zinc-800/50">{item.val || '-'}</p>
                                 </div>
                             ))}

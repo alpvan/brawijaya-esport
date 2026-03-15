@@ -85,7 +85,27 @@ const Events: React.FC = () => {
                       }`}>
                       {event.title}
                     </h4>
-                    <p className="text-gray-400 text-xs sm:text-sm mb-3 max-w-md mx-auto md:mx-0">{event.desc}</p>
+                    <p className="text-gray-400 text-xs sm:text-sm mb-3 max-w-md mx-auto md:mx-0">
+                      {(() => {
+                        const text = event.desc;
+                        const urlRegex = /(https?:\/\/[^\s]+)/g;
+                        const parts = text.split(urlRegex);
+                        return parts.map((part, i) => 
+                          urlRegex.test(part) ? (
+                            <a 
+                              key={i} 
+                              href={part} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="text-primary hover:underline"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {part}
+                            </a>
+                          ) : part
+                        );
+                      })()}
+                    </p>
                     <button
                       onClick={() => setDetailEvent(event)}
                       className="text-primary text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:text-white transition-colors inline-flex items-center gap-1"
